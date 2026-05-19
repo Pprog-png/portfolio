@@ -121,7 +121,7 @@ body { background: var(--paper); color: var(--ink); font-family: var(--font-seri
 .spread-grid-1-solo { grid-template-columns: 1fr 1fr; gap: 10px; }
 
 .spread-img-wrap { border: 1px solid var(--ink); background: var(--paper-dark); overflow: hidden; }
-.spread-img-wrap img { width: 100%; height: 320px; object-fit: contain; object-position: center; display: block; transition: transform 0.4s; cursor: zoom-in; background: var(--paper-dark); }
+.spread-img-wrap img { width: 100%; height: 320px; object-fit: cover; object-position: center; display: block; transition: transform 0.4s; cursor: zoom-in; }
 .spread-img-wrap img.landscape { height: 240px; }
 .spread-img-wrap:hover img { transform: scale(1.02); }
 
@@ -565,11 +565,10 @@ function openProject(key) {
     if (imgs.length === 0) return;
 
     if (imgs.length === 1) {
-      // Single image: show beside a typographic caption column — no wasted empty space
       html += `<div class="spread-grid-1-solo">`;
       html += imgCard(imgs[0]);
       html += `<div class="solo-caption-col">
-        <div class="big-num">0${project.sections.indexOf ? '' : ''}—</div>
+        <div class="big-num">—</div>
         <div class="solo-label">${imgs[0].caption}</div>
         <div style="margin-top:16px;font-family:var(--font-mono);font-size:9px;letter-spacing:0.1em;color:var(--mid);text-transform:uppercase;line-height:1.8;">${project.type}</div>
       </div>`;
