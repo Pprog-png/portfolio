@@ -113,19 +113,17 @@ body { background: var(--paper); color: var(--ink); font-family: var(--font-seri
 .spread-headline { font-family: var(--font-serif); font-weight: 900; font-size: clamp(3rem, 9vw, 10rem); letter-spacing: -0.04em; text-transform: uppercase; line-height: 0.85; }
 .spread-section-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; border-top: 2px solid var(--ink); border-bottom: 1px solid var(--ink); padding: 6px 0; margin: 32px 0 16px; color: var(--red); }
 
-/* IMAGE GRIDS — contained, newspaper-style, never full-bleed tall */
+/* IMAGE GRIDS — contained, newspaper-style */
 .spread-grid { display: grid; gap: 10px; margin-bottom: 10px; }
 .spread-grid-4 { grid-template-columns: repeat(4, 1fr); }
 .spread-grid-3 { grid-template-columns: repeat(3, 1fr); }
 .spread-grid-2 { grid-template-columns: repeat(2, 1fr); }
-.spread-grid-1 { grid-template-columns: 2fr 1fr; } /* single image: constrained to 2/3 width with caption col */
 .spread-grid-1-solo { grid-template-columns: 1fr 1fr; gap: 10px; }
 
 .spread-img-wrap { border: 1px solid var(--ink); background: var(--paper-dark); overflow: hidden; }
-.spread-img-wrap img { width: 100%; height: 240px; object-fit: cover; display: block; transition: transform 0.4s; cursor: zoom-in; }
-.spread-img-wrap img.portrait { height: 320px; object-position: top; }
-.spread-img-wrap img.landscape { height: 200px; }
-.spread-img-wrap:hover img { transform: scale(1.03); }
+.spread-img-wrap img { width: 100%; height: 320px; object-fit: contain; object-position: center; display: block; transition: transform 0.4s; cursor: zoom-in; background: var(--paper-dark); }
+.spread-img-wrap img.landscape { height: 240px; }
+.spread-img-wrap:hover img { transform: scale(1.02); }
 
 .img-caption { font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); padding: 5px 6px; border-top: 1px solid var(--ink); background: var(--paper); }
 
@@ -431,14 +429,14 @@ const PROJECTS = {
       {
         label: "Posters",
         images: [
-          { id: "1vwCdrtb1yxFrdewovdhz8kavjNWpE6-p", caption: "Hands On Hub", orient: "landscape" },
+          { id: "1uzpGA3ivDinBax2Ck7mdBToB0pBoujOe", caption: "Hands On Hub Workshop", orient: "portrait" },
           { id: "1mSDWtFeEo79mLKfJY142UZ0e2Hwsfg_p", caption: "Registration Open — A3", orient: "portrait" },
         ]
       },
       {
         label: "Social Media",
         images: [
-          { id: "1uzpGA3ivDinBax2Ck7mdBToB0pBoujOe", caption: "Hands On Hub Workshop", orient: "portrait" },
+          { id: "1vwCdrtb1yxFrdewovdhz8kavjNWpE6-p", caption: "Hands On Hub Print Poster", orient: "landscape" },
           { id: "1ZtYw0UOnnZb8vhCfdOpS6FtwdQhVpWWl", caption: "Registration Open", orient: "portrait" },
         ]
       },
@@ -567,12 +565,13 @@ function openProject(key) {
     if (imgs.length === 0) return;
 
     if (imgs.length === 1) {
-      // Single image: show at reasonable size with a side caption column
-      html += `<div class="spread-grid spread-grid-1-solo">`;
+      // Single image: show beside a typographic caption column — no wasted empty space
+      html += `<div class="spread-grid-1-solo">`;
       html += imgCard(imgs[0]);
       html += `<div class="solo-caption-col">
-        <div class="big-num">— </div>
+        <div class="big-num">0${project.sections.indexOf ? '' : ''}—</div>
         <div class="solo-label">${imgs[0].caption}</div>
+        <div style="margin-top:16px;font-family:var(--font-mono);font-size:9px;letter-spacing:0.1em;color:var(--mid);text-transform:uppercase;line-height:1.8;">${project.type}</div>
       </div>`;
       html += `</div>`;
     } else if (imgs.length === 2) {
