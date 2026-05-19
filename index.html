@@ -474,7 +474,12 @@ const PROJECTS = {
       },
       {
         label: "Mindscapes — School Magazine 2023–24",
-        pdf: "https://drive.google.com/file/d/1RWDuhJS0U1_9NfbLEwRszinOSK7hRzar/preview",
+        driveLink: "https://drive.google.com/file/d/1RWDuhJS0U1_9NfbLEwRszinOSK7hRzar/view",
+        images: []
+      },
+      {
+        label: "Mindscapes — Part 2, Creative Magazine",
+        driveLink: "https://drive.google.com/file/d/1xgR0bfR7QxeoiM7xmAvyn0GHS8suurtA/view",
         images: []
       }
     ]
@@ -543,17 +548,24 @@ function openProject(key) {
 
   // Collect all PDF sections and render two per row
   const pdfSections = project.sections.filter(s => s.pdf);
-  const imgSections = project.sections.filter(s => !s.pdf);
+  const imgSections = project.sections.filter(s => !s.pdf && !s.driveLink);
 
   if (pdfSections.length > 0) {
-    // Render PDFs in pairs side by side
     for (let i = 0; i < pdfSections.length; i += 2) {
       html += `<div class="pdfs-row">`;
       html += pdfBlock(pdfSections[i]);
       if (pdfSections[i + 1]) html += pdfBlock(pdfSections[i + 1]);
       html += `</div>`;
     }
-    // If odd number, last one was already added solo inside the row
+  }
+
+  // Drive-link-only sections (too large to preview)
+  const linkSections = project.sections.filter(s => s.driveLink);
+  for (let i = 0; i < linkSections.length; i += 2) {
+    html += `<div class="pdfs-row">`;
+    html += driveLinkBlock(linkSections[i]);
+    if (linkSections[i + 1]) html += driveLinkBlock(linkSections[i + 1]);
+    html += `</div>`;
   }
 
   // Group single-image sections into pairs, multi-image sections render normally
@@ -627,6 +639,18 @@ function openProject(key) {
 
   document.getElementById('modal-overlay').classList.add('open');
   document.body.style.overflow = 'hidden';
+}
+
+function driveLinkBlock(section) {
+  return `
+    <div style="border:1px solid var(--ink);padding:48px 40px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;background:var(--paper-dark);text-align:center;">
+      <div style="font-family:var(--font-serif);font-weight:700;font-size:1.4rem;letter-spacing:-0.02em;">${section.label}</div>
+      <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--mid);">File too large to preview inline</div>
+      <a href="${section.driveLink}" target="_blank" style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;text-transform:uppercase;background:var(--ink);color:var(--paper);padding:12px 28px;text-decoration:none;transition:background 0.2s;" onmouseover="this.style.background='var(--red)'" onmouseout="this.style.background='var(--ink)'">
+        View on Google Drive ↗
+      </a>
+    </div>
+  `;
 }
 
 function pdfBlock(section) {
