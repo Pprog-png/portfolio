@@ -38,7 +38,7 @@ body { background: var(--paper); color: var(--ink); font-family: var(--font-seri
 .page.active { display: block !important; }
 
 /* MASTHEAD */
-.masthead { height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 0 48px; position: relative; }
+.masthead { height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 0 48px; position: relative; scroll-snap-align: start; }
 .masthead-meta { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; border-bottom: 2px solid var(--ink); padding-bottom: 10px; }
 .masthead-name { font-family: var(--font-serif); font-weight: 900; font-size: clamp(4rem, 14vw, 16rem); line-height: 0.84; letter-spacing: -0.04em; text-transform: uppercase; border-bottom: 4px solid var(--ink); padding: 12px 0 16px; }
 .masthead-sub { display: flex; justify-content: space-between; padding-top: 12px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; border-bottom: 1px solid var(--ink); padding-bottom: 12px; }
@@ -55,10 +55,10 @@ body { background: var(--paper); color: var(--ink); font-family: var(--font-seri
 .section-page { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; }
 .home-works-grid { display: grid; grid-template-columns: 1fr 1px 1fr 1px 1fr; }
 .col-divider { background: var(--ink); }
-.home-work-col { padding: 0 32px; }
+.home-work-col { padding: 0 32px; scroll-snap-align: start; }
 .home-work-col:first-child { padding-left: 0; }
 .home-work-col:last-child { padding-right: 0; }
-.home-work-item { cursor: pointer; padding: 20px 0; border-bottom: 1px solid var(--ink); transition: background 0.2s; }
+.home-work-item { cursor: pointer; padding: 20px 0; border-bottom: 1px solid var(--ink); transition: background 0.2s; scroll-snap-align: start; }
 .home-work-item:last-child { border-bottom: none; }
 .home-work-item:hover .work-item-title { color: var(--red); }
 .work-item-num { font-family: var(--font-serif); font-size: 2.8rem; font-weight: 900; color: rgba(0,0,0,0.12); line-height: 1; margin-bottom: 4px; }
@@ -121,9 +121,9 @@ body { background: var(--paper); color: var(--ink); font-family: var(--font-seri
 .spread-grid-1-solo { grid-template-columns: 1fr 1fr; gap: 10px; }
 
 .spread-img-wrap { border: 1px solid var(--ink); background: var(--paper-dark); overflow: hidden; }
-.spread-img-wrap img { width: 100%; height: 320px; object-fit: cover; object-position: center; display: block; transition: transform 0.4s; cursor: zoom-in; }
-.spread-img-wrap img.landscape { height: 240px; }
-.spread-img-wrap:hover img { transform: scale(1.02); }
+.spread-img-wrap .img-inner { position: relative; width: 100%; padding-bottom: 75%; /* 4:3 default */ }
+.spread-img-wrap .img-inner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; transition: transform 0.4s; cursor: zoom-in; }
+.spread-img-wrap:hover .img-inner img { transform: scale(1.02); }
 
 .img-caption { font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); padding: 5px 6px; border-top: 1px solid var(--ink); background: var(--paper); }
 
@@ -182,7 +182,7 @@ footer a:hover { color: var(--red); }
 </nav>
 
 <!-- HOME -->
-<div id="page-home" class="page active">
+<div id="page-home" class="page active" style="scroll-snap-type: y mandatory; overflow-y: scroll; height: 100vh;">
   <section class="masthead">
     <div class="masthead-meta">
       <span>Vol. 01 — Issue 42</span>
@@ -198,7 +198,7 @@ footer a:hover { color: var(--red); }
     <div class="scroll-hint">Scroll</div>
   </section>
 
-  <section class="works-section">
+  <section class="works-section" style="scroll-snap-align: start;">
     <div class="section-header">
       <span class="section-label">Selected Works</span>
       <span class="section-page">Page 01</span>
@@ -556,35 +556,66 @@ function openProject(key) {
     // If odd number, last one was already added solo inside the row
   }
 
-  imgSections.forEach(section => {
-    if (section.label) {
-      html += `<div class="spread-section-label">${section.label}</div>`;
-    }
+  // Group single-image sections into pairs, multi-image sections render normally
+  const singles = [];
+  const processed = new Set();
 
+  imgSections.forEach((section, i) => {
+    if (processed.has(i)) return;
     const imgs = section.images || [];
-    if (imgs.length === 0) return;
 
     if (imgs.length === 1) {
-      html += `<div class="spread-grid-1-solo">`;
-      html += imgCard(imgs[0]);
-      html += `<div class="solo-caption-col">
-        <div class="big-num">—</div>
-        <div class="solo-label">${imgs[0].caption}</div>
-        <div style="margin-top:16px;font-family:var(--font-mono);font-size:9px;letter-spacing:0.1em;color:var(--mid);text-transform:uppercase;line-height:1.8;">${project.type}</div>
-      </div>`;
-      html += `</div>`;
-    } else if (imgs.length === 2) {
-      html += `<div class="spread-grid spread-grid-2">`;
-      imgs.forEach(img => { html += imgCard(img); });
-      html += `</div>`;
-    } else if (imgs.length === 3) {
-      html += `<div class="spread-grid spread-grid-3">`;
-      imgs.forEach(img => { html += imgCard(img); });
-      html += `</div>`;
+      // Look for next single-image section to pair with
+      let paired = null;
+      for (let j = i + 1; j < imgSections.length; j++) {
+        if (!processed.has(j) && (imgSections[j].images || []).length === 1) {
+          paired = j;
+          break;
+        }
+      }
+
+      if (paired !== null) {
+        // Render two single-image sections side by side
+        const pairSection = imgSections[paired];
+        processed.add(i);
+        processed.add(paired);
+        html += `<div class="spread-grid spread-grid-2">`;
+        html += `<div>`;
+        html += `<div class="spread-section-label" style="margin-top:0">${section.label}</div>`;
+        html += imgCard(imgs[0]);
+        html += `</div>`;
+        html += `<div>`;
+        html += `<div class="spread-section-label" style="margin-top:0">${pairSection.label}</div>`;
+        html += imgCard(pairSection.images[0]);
+        html += `</div>`;
+        html += `</div>`;
+      } else {
+        // Truly alone — show at half width with caption beside
+        processed.add(i);
+        html += `<div class="spread-section-label">${section.label}</div>`;
+        html += `<div style="display:flex;justify-content:center;">`;
+        html += `<div style="width:50%;">`;
+        html += imgCard(imgs[0]);
+        html += `</div>`;
+        html += `</div>`;
+      }
     } else {
-      html += `<div class="spread-grid spread-grid-4">`;
-      imgs.forEach(img => { html += imgCard(img); });
-      html += `</div>`;
+      // Multi-image section — render normally
+      processed.add(i);
+      html += `<div class="spread-section-label">${section.label}</div>`;
+      if (imgs.length === 2) {
+        html += `<div class="spread-grid spread-grid-2">`;
+        imgs.forEach(img => { html += imgCard(img); });
+        html += `</div>`;
+      } else if (imgs.length === 3) {
+        html += `<div class="spread-grid spread-grid-3">`;
+        imgs.forEach(img => { html += imgCard(img); });
+        html += `</div>`;
+      } else {
+        html += `<div class="spread-grid spread-grid-4">`;
+        imgs.forEach(img => { html += imgCard(img); });
+        html += `</div>`;
+      }
     }
   });
 
@@ -608,10 +639,11 @@ function pdfBlock(section) {
 }
 
 function imgCard(img) {
-  const heightClass = img.orient === 'portrait' ? 'portrait' : 'landscape';
   return `
     <div class="spread-img-wrap">
-      <img src="${driveImg(img.id)}" alt="${img.caption}" class="${heightClass}" loading="lazy">
+      <div class="img-inner">
+        <img src="${driveImg(img.id)}" alt="${img.caption}" loading="lazy">
+      </div>
       <div class="img-caption">${img.caption}</div>
     </div>
   `;
