@@ -6,759 +6,183 @@
 <title>PRAYAG GHOSH — VISUAL DESIGNER</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=IBM+Plex+Mono:wght@400;600&family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
-/* ============================================================
-   CSS VARIABLES — edit these to retheme the whole site
-   ============================================================ */
 :root {
   --ink: #0a0a0a;
   --paper: #f5f2eb;
   --paper-dark: #ede9df;
   --red: #8B0000;
   --mid: #555;
-  --rule: 1px solid var(--ink);
-  --rule-heavy: 3px solid var(--ink);
   --font-serif: 'Playfair Display', Georgia, serif;
   --font-mono: 'IBM Plex Mono', monospace;
 }
-
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 html { scroll-behavior: smooth; }
+body { background: var(--paper); color: var(--ink); font-family: var(--font-serif); min-height: 100vh; overflow-x: hidden; }
 
-body {
-  background: var(--paper);
-  color: var(--ink);
-  font-family: var(--font-serif);
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-/* ============================================================
-   NAV — floating pill
-   ============================================================ */
+/* NAV */
 #nav {
-  position: fixed;
-  top: 22px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  gap: 32px;
-  background: var(--paper);
-  border: 1.5px solid var(--ink);
-  border-radius: 999px;
-  padding: 10px 32px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  white-space: nowrap;
+  position: fixed; top: 22px; left: 50%; transform: translateX(-50%);
+  z-index: 1000; display: flex; align-items: center; gap: 32px;
+  background: var(--paper); border: 1.5px solid var(--ink); border-radius: 999px;
+  padding: 10px 32px; font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: 0.18em; text-transform: uppercase; white-space: nowrap;
 }
-
-#nav a {
-  color: var(--ink);
-  text-decoration: none;
-  cursor: pointer;
-  transition: color 0.2s;
-}
+#nav a { color: var(--ink); text-decoration: none; cursor: pointer; transition: color 0.2s; }
 #nav a:hover, #nav a.active { color: var(--red); }
 
-/* ============================================================
-   PAGES
-   ============================================================ */
+/* PAGES */
 .page { display: none !important; min-height: 100vh; }
 .page.active { display: block !important; }
 
-/* ============================================================
-   HOME PAGE
-   ============================================================ */
-#page-home {
-  display: flex;
-  flex-direction: column;
-}
+/* MASTHEAD */
+.masthead { height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 0 48px; position: relative; }
+.masthead-meta { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; border-bottom: 2px solid var(--ink); padding-bottom: 10px; }
+.masthead-name { font-family: var(--font-serif); font-weight: 900; font-size: clamp(4rem, 14vw, 16rem); line-height: 0.84; letter-spacing: -0.04em; text-transform: uppercase; border-bottom: 4px solid var(--ink); padding: 12px 0 16px; }
+.masthead-sub { display: flex; justify-content: space-between; padding-top: 12px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; border-bottom: 1px solid var(--ink); padding-bottom: 12px; }
+.masthead-tagline { text-align: center; margin-top: 28px; font-family: var(--font-serif); font-style: italic; font-size: clamp(0.95rem, 1.8vw, 1.3rem); color: var(--mid); }
+.scroll-hint { position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mid); display: flex; flex-direction: column; align-items: center; gap: 6px; animation: bounce 2s infinite; }
+.scroll-hint::after { content: ''; width: 1px; height: 36px; background: var(--ink); display: block; }
+@keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
 
-/* Masthead hero — always full viewport height */
-.masthead {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0 48px;
-  position: relative;
-}
-
-.masthead-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  border-bottom: 2px solid var(--ink);
-  padding-bottom: 10px;
-  margin-bottom: 0;
-}
-
-.masthead-name {
-  font-family: var(--font-serif);
-  font-weight: 900;
-  font-size: clamp(4rem, 14vw, 16rem);
-  line-height: 0.84;
-  letter-spacing: -0.04em;
-  text-transform: uppercase;
-  border-bottom: 4px solid var(--ink);
-  padding: 12px 0 16px;
-  word-break: break-word;
-}
-
-.masthead-sub {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 12px;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  border-bottom: 1px solid var(--ink);
-  padding-bottom: 12px;
-}
-
-.masthead-tagline {
-  text-align: center;
-  margin-top: 28px;
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: clamp(0.95rem, 1.8vw, 1.3rem);
-  color: var(--mid);
-  letter-spacing: 0.02em;
-}
-
-.scroll-hint {
-  position: absolute;
-  bottom: 28px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--mid);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  animation: bounce 2s infinite;
-}
-.scroll-hint::after {
-  content: '';
-  width: 1px;
-  height: 36px;
-  background: var(--ink);
-  display: block;
-}
-@keyframes bounce {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50% { transform: translateX(-50%) translateY(6px); }
-}
-
-/* Selected Works Section */
-.works-section {
-  padding: 60px 48px 80px;
-  border-top: 4px double var(--ink);
-}
-
-.section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 2px solid var(--ink);
-  padding-bottom: 12px;
-  margin-bottom: 40px;
-}
-
-.section-label {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.section-label::before {
-  content: '';
-  width: 8px;
-  height: 8px;
-  background: var(--red);
-  display: inline-block;
-  flex-shrink: 0;
-}
-
-.section-page {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.15em;
-}
-
-/* Works grid on home page */
-.home-works-grid {
-  display: grid;
-  grid-template-columns: 1fr 1px 1fr 1px 1fr;
-  gap: 0;
-}
-
-.col-divider {
-  background: var(--ink);
-  width: 1px;
-}
-
-.home-work-col {
-  padding: 0 32px;
-}
+/* HOME WORKS */
+.works-section { padding: 60px 48px 80px; border-top: 4px double var(--ink); }
+.section-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--ink); padding-bottom: 12px; margin-bottom: 40px; }
+.section-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; display: flex; align-items: center; gap: 10px; }
+.section-label::before { content: ''; width: 8px; height: 8px; background: var(--red); display: inline-block; }
+.section-page { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; }
+.home-works-grid { display: grid; grid-template-columns: 1fr 1px 1fr 1px 1fr; }
+.col-divider { background: var(--ink); }
+.home-work-col { padding: 0 32px; }
 .home-work-col:first-child { padding-left: 0; }
 .home-work-col:last-child { padding-right: 0; }
-
-.home-work-item {
-  cursor: pointer;
-  padding: 20px 0;
-  border-bottom: 1px solid var(--ink);
-  transition: background 0.2s;
-}
+.home-work-item { cursor: pointer; padding: 20px 0; border-bottom: 1px solid var(--ink); transition: background 0.2s; }
 .home-work-item:last-child { border-bottom: none; }
 .home-work-item:hover .work-item-title { color: var(--red); }
+.work-item-num { font-family: var(--font-serif); font-size: 2.8rem; font-weight: 900; color: rgba(0,0,0,0.12); line-height: 1; margin-bottom: 4px; }
+.work-item-title { font-family: var(--font-serif); font-weight: 700; font-size: clamp(1.1rem, 2vw, 1.6rem); line-height: 1.1; text-transform: uppercase; transition: color 0.2s; margin-bottom: 8px; }
+.work-item-type { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mid); border-top: 1px solid rgba(0,0,0,0.15); padding-top: 8px; margin-top: 8px; }
 
-.work-item-num {
-  font-family: var(--font-serif);
-  font-size: 2.8rem;
-  font-weight: 900;
-  color: rgba(0,0,0,0.12);
-  line-height: 1;
-  margin-bottom: 4px;
-}
-
-.work-item-title {
-  font-family: var(--font-serif);
-  font-weight: 700;
-  font-size: clamp(1.1rem, 2vw, 1.6rem);
-  line-height: 1.1;
-  text-transform: uppercase;
-  transition: color 0.2s;
-  margin-bottom: 8px;
-}
-
-.work-item-type {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--mid);
-  border-top: 1px solid rgba(0,0,0,0.15);
-  padding-top: 8px;
-  margin-top: 8px;
-}
-
-/* ============================================================
-   ABOUT PAGE
-   ============================================================ */
-#page-about {
-  padding: 120px 48px 80px;
-  max-width: 1440px;
-  margin: 0 auto;
-}
-
-.about-header {
-  border-bottom: 2px solid var(--ink);
-  padding-bottom: 16px;
-  margin-bottom: 48px;
-}
-
-.about-header h1 {
-  font-family: var(--font-serif);
-  font-weight: 900;
-  font-size: clamp(2.5rem, 6vw, 6rem);
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
-  line-height: 0.9;
-}
-
-.about-edition {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--mid);
-  margin-top: 8px;
-}
-
-.about-grid {
-  display: grid;
-  grid-template-columns: 5fr 1px 7fr;
-  gap: 0;
-}
-
-.about-photo-col {
-  padding-right: 48px;
-}
-
-/* ============================================================
-   ABOUT PHOTO — replace src with your real photo
-   ============================================================ */
-.about-photo-wrap {
-  border: 1px solid var(--ink);
-  padding: 4px;
-  background: var(--paper-dark);
-  margin-bottom: 16px;
-}
-.about-photo-wrap img {
-  width: 100%;
-  height: auto;
-  display: block;
-  filter: grayscale(20%) contrast(1.05);
-  mix-blend-mode: multiply;
-}
-
-.about-photo-caption {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  text-align: center;
-  border-top: 1px solid var(--ink);
-  border-bottom: 1px solid var(--ink);
-  padding: 6px 0;
-}
-
-.about-text-col {
-  padding-left: 48px;
-}
-
-.drop-cap-para {
-  font-family: var(--font-mono);
-  font-size: 15px;
-  line-height: 1.85;
-  color: var(--ink);
-  margin-bottom: 36px;
-}
-
-.drop-cap-letter {
-  float: left;
-  font-family: var(--font-serif);
-  font-weight: 900;
-  font-size: 6rem;
-  line-height: 0.82;
-  margin: 0.05em 0.1em -0.1em 0;
-  color: var(--ink);
-}
-
-.what-i-do-header {
-  border-top: 2px solid var(--ink);
-  border-bottom: 2px solid var(--ink);
-  padding: 10px 0;
-  margin-bottom: 28px;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-}
-
-.service-item {
-  border-top: 1px solid var(--ink);
-  padding: 16px 0;
-  font-family: var(--font-mono);
-  font-size: 13px;
-  line-height: 1.7;
-}
+/* ABOUT */
+#page-about { padding: 120px 48px 80px; max-width: 1440px; margin: 0 auto; }
+.about-header { border-bottom: 2px solid var(--ink); padding-bottom: 16px; margin-bottom: 48px; }
+.about-header h1 { font-family: var(--font-serif); font-weight: 900; font-size: clamp(2.5rem, 6vw, 6rem); letter-spacing: -0.03em; text-transform: uppercase; line-height: 0.9; }
+.about-edition { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--mid); margin-top: 8px; }
+.about-grid { display: grid; grid-template-columns: 5fr 1px 7fr; gap: 0; }
+.about-photo-col { padding-right: 48px; }
+.about-photo-wrap { border: 1px solid var(--ink); padding: 4px; background: var(--paper-dark); margin-bottom: 16px; }
+.about-photo-wrap img { width: 100%; height: auto; display: block; filter: grayscale(20%) contrast(1.05); }
+.about-photo-caption { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; text-align: center; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); padding: 6px 0; }
+.about-text-col { padding-left: 48px; }
+.drop-cap-para { font-family: var(--font-mono); font-size: 15px; line-height: 1.85; margin-bottom: 36px; }
+.drop-cap-letter { float: left; font-family: var(--font-serif); font-weight: 900; font-size: 6rem; line-height: 0.82; margin: 0.05em 0.1em -0.1em 0; }
+.what-i-do-header { border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); padding: 10px 0; margin-bottom: 28px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; }
+.service-item { border-top: 1px solid var(--ink); padding: 16px 0; font-family: var(--font-mono); font-size: 13px; line-height: 1.7; }
 .service-item:last-of-type { border-bottom: 1px solid var(--ink); }
-
-.service-title {
-  font-weight: 600;
-  display: block;
-  margin-bottom: 4px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.contact-box {
-  margin-top: 40px;
-  border: 2px solid var(--ink);
-  background: var(--ink);
-  color: var(--paper);
-  padding: 28px 32px;
-}
-.contact-box-title {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  border-bottom: 1px solid rgba(255,255,255,0.3);
-  padding-bottom: 10px;
-  margin-bottom: 16px;
-}
-.contact-links {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 24px;
-}
-.contact-links a {
-  color: var(--paper);
-  text-decoration: none;
-  transition: color 0.2s;
-}
+.service-title { font-weight: 600; display: block; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.08em; }
+.contact-box { margin-top: 40px; border: 2px solid var(--ink); background: var(--ink); color: var(--paper); padding: 28px 32px; }
+.contact-box-title { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 10px; margin-bottom: 16px; }
+.contact-links { font-family: var(--font-mono); font-size: 13px; display: flex; flex-wrap: wrap; gap: 8px 24px; }
+.contact-links a { color: var(--paper); text-decoration: none; transition: color 0.2s; }
 .contact-links a:hover { color: #ff8a80; }
 
-/* ============================================================
-   WORKS INDEX PAGE
-   ============================================================ */
-#page-works {
-  padding: 120px 48px 80px;
-  max-width: 1440px;
-  margin: 0 auto;
-}
-
-.works-page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  border-bottom: 4px solid var(--ink);
-  padding-bottom: 12px;
-  margin-bottom: 0;
-}
-
-.works-page-title {
-  font-family: var(--font-serif);
-  font-weight: 900;
-  font-size: clamp(3rem, 8vw, 8rem);
-  letter-spacing: -0.04em;
-  text-transform: uppercase;
-  line-height: 0.85;
-}
-
-.works-archive-label {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--mid);
-  padding-bottom: 8px;
-}
-
-.works-index-list { margin-top: 0; }
-
-.works-index-item {
-  display: grid;
-  grid-template-columns: 80px 1fr auto;
-  align-items: center;
-  gap: 32px;
-  border-bottom: 1px solid var(--ink);
-  padding: 28px 0;
-  cursor: pointer;
-  transition: background 0.15s;
-}
+/* WORKS INDEX */
+#page-works { padding: 120px 48px 80px; max-width: 1440px; margin: 0 auto; }
+.works-page-header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 4px solid var(--ink); padding-bottom: 12px; }
+.works-page-title { font-family: var(--font-serif); font-weight: 900; font-size: clamp(3rem, 8vw, 8rem); letter-spacing: -0.04em; text-transform: uppercase; line-height: 0.85; }
+.works-archive-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mid); padding-bottom: 8px; }
+.works-index-item { display: grid; grid-template-columns: 80px 1fr auto; align-items: center; gap: 32px; border-bottom: 1px solid var(--ink); padding: 28px 0; cursor: pointer; transition: background 0.15s; }
 .works-index-item:hover { background: var(--paper-dark); }
 .works-index-item:hover .wii-title { color: var(--red); }
-
-.wii-num {
-  font-family: var(--font-serif);
-  font-size: clamp(2rem, 3.5vw, 3.5rem);
-  font-weight: 900;
-  color: var(--red);
-  line-height: 1;
-}
-
+.wii-num { font-family: var(--font-serif); font-size: clamp(2rem, 3.5vw, 3.5rem); font-weight: 900; color: var(--red); line-height: 1; }
 .wii-info { display: flex; flex-direction: column; gap: 4px; }
+.wii-title { font-family: var(--font-serif); font-weight: 700; font-size: clamp(1.4rem, 3vw, 2.6rem); text-transform: uppercase; letter-spacing: -0.02em; line-height: 1; transition: color 0.2s; }
+.wii-desc { font-family: var(--font-mono); font-size: 11px; color: var(--mid); letter-spacing: 0.05em; margin-top: 4px; }
+.wii-meta { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--mid); text-align: right; line-height: 1.8; }
 
-.wii-title {
-  font-family: var(--font-serif);
-  font-weight: 700;
-  font-size: clamp(1.4rem, 3vw, 2.6rem);
-  text-transform: uppercase;
-  letter-spacing: -0.02em;
-  line-height: 1;
-  transition: color 0.2s;
-}
-
-.wii-desc {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--mid);
-  letter-spacing: 0.05em;
-  margin-top: 4px;
-}
-
-.wii-meta {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--mid);
-  text-align: right;
-  line-height: 1.8;
-}
-
-/* ============================================================
-   NEWSPAPER SPREAD MODAL
-   ============================================================ */
-#modal-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 2000;
-  background: var(--paper);
-  overflow-y: auto;
-}
+/* MODAL */
+#modal-overlay { display: none; position: fixed; inset: 0; z-index: 2000; background: var(--paper); overflow-y: auto; }
 #modal-overlay.open { display: block; }
-
-.modal-inner {
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 40px 48px 80px;
-}
-
-.modal-close {
-  position: sticky;
-  top: 20px;
-  float: right;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  cursor: pointer;
-  background: var(--ink);
-  color: var(--paper);
-  padding: 8px 16px;
-  border: none;
-  transition: background 0.2s;
-  z-index: 10;
-}
+.modal-inner { max-width: 1440px; margin: 0 auto; padding: 40px 48px 80px; }
+.modal-close { position: sticky; top: 20px; float: right; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; cursor: pointer; background: var(--ink); color: var(--paper); padding: 8px 16px; border: none; z-index: 10; }
 .modal-close:hover { background: var(--red); }
+.spread-masthead { border-bottom: 4px double var(--ink); padding-bottom: 16px; margin-bottom: 8px; clear: both; }
+.spread-dateline { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mid); border-bottom: 1px solid var(--ink); padding-bottom: 6px; margin-bottom: 12px; }
+.spread-headline { font-family: var(--font-serif); font-weight: 900; font-size: clamp(3rem, 9vw, 10rem); letter-spacing: -0.04em; text-transform: uppercase; line-height: 0.85; }
+.spread-section-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; border-top: 2px solid var(--ink); border-bottom: 1px solid var(--ink); padding: 6px 0; margin: 32px 0 16px; color: var(--red); }
 
-.spread-masthead {
-  border-bottom: 4px double var(--ink);
-  padding-bottom: 16px;
-  margin-bottom: 8px;
-  clear: both;
-}
-
-.spread-dateline {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--mid);
-  border-bottom: 1px solid var(--ink);
-  padding-bottom: 6px;
-  margin-bottom: 12px;
-}
-
-.spread-headline {
-  font-family: var(--font-serif);
-  font-weight: 900;
-  font-size: clamp(3rem, 9vw, 10rem);
-  letter-spacing: -0.04em;
-  text-transform: uppercase;
-  line-height: 0.85;
-}
-
-/* Section label inside spread */
-.spread-section-label {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  border-top: 2px solid var(--ink);
-  border-bottom: 1px solid var(--ink);
-  padding: 6px 0;
-  margin: 32px 0 16px;
-  color: var(--red);
-}
-
-/* Newspaper image grid */
-.spread-grid {
-  display: grid;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-
+/* IMAGE GRIDS — contained, newspaper-style, never full-bleed tall */
+.spread-grid { display: grid; gap: 10px; margin-bottom: 10px; }
+.spread-grid-4 { grid-template-columns: repeat(4, 1fr); }
 .spread-grid-3 { grid-template-columns: repeat(3, 1fr); }
 .spread-grid-2 { grid-template-columns: repeat(2, 1fr); }
-.spread-grid-1 { grid-template-columns: 1fr; }
+.spread-grid-1 { grid-template-columns: 2fr 1fr; } /* single image: constrained to 2/3 width with caption col */
+.spread-grid-1-solo { grid-template-columns: 1fr 1fr; gap: 10px; }
 
-/* Mosaic: big left, stack right */
-.spread-grid-mosaic {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 12px;
-}
-.spread-grid-mosaic .mosaic-stack {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.spread-img-wrap {
-  border: 1px solid var(--ink);
-  background: var(--paper-dark);
-  overflow: hidden;
-  position: relative;
-}
-.spread-img-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.4s ease;
-  cursor: zoom-in;
-}
+.spread-img-wrap { border: 1px solid var(--ink); background: var(--paper-dark); overflow: hidden; }
+.spread-img-wrap img { width: 100%; height: 280px; object-fit: cover; display: block; transition: transform 0.4s; cursor: zoom-in; }
+.spread-img-wrap img.portrait { height: 380px; }
+.spread-img-wrap img.landscape { height: 220px; }
 .spread-img-wrap:hover img { transform: scale(1.03); }
 
-.spread-img-wrap.tall { min-height: 420px; }
-.spread-img-wrap.medium { min-height: 260px; }
-.spread-img-wrap.short { min-height: 180px; }
+.img-caption { font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); padding: 5px 6px; border-top: 1px solid var(--ink); background: var(--paper); }
 
-.img-caption {
-  font-family: var(--font-mono);
-  font-size: 8px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--mid);
-  padding: 5px 6px;
-  border-top: 1px solid var(--ink);
-  background: var(--paper);
-}
+/* for single-image: sidebar caption column */
+.solo-caption-col { display: flex; flex-direction: column; justify-content: flex-start; padding-left: 12px; }
+.solo-caption-col .big-num { font-family: var(--font-serif); font-weight: 900; font-size: 5rem; color: rgba(0,0,0,0.07); line-height: 1; }
+.solo-caption-col .solo-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; margin-top: 12px; }
 
-/* PDF embed in spread */
-.spread-pdf-wrap {
-  border: 1px solid var(--ink);
-  overflow: hidden;
-}
-.spread-pdf-wrap iframe {
-  width: 100%;
-  height: 680px;
-  display: block;
-  border: none;
-}
+/* PDF */
+.spread-pdf-wrap { border: 1px solid var(--ink); overflow: hidden; margin-bottom: 10px; }
+.spread-pdf-wrap iframe { width: 100%; height: 640px; display: block; border: none; }
+.pdf-caption { font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); padding: 5px 6px; border-top: 1px solid var(--ink); border: 1px solid var(--ink); border-top: none; background: var(--paper); margin-bottom: 16px; }
 
-/* Lightbox */
-#lightbox {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 3000;
-  background: rgba(0,0,0,0.93);
-  align-items: center;
-  justify-content: center;
-}
+/* LIGHTBOX */
+#lightbox { display: none; position: fixed; inset: 0; z-index: 3000; background: rgba(0,0,0,0.93); align-items: center; justify-content: center; }
 #lightbox.open { display: flex; }
-#lightbox img {
-  max-width: 92vw;
-  max-height: 92vh;
-  object-fit: contain;
-  border: 2px solid rgba(255,255,255,0.1);
-}
-#lightbox-close {
-  position: absolute;
-  top: 20px;
-  right: 28px;
-  color: white;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.15em;
-  cursor: pointer;
-  text-transform: uppercase;
-  background: none;
-  border: 1px solid rgba(255,255,255,0.4);
-  padding: 6px 14px;
-}
+#lightbox img { max-width: 92vw; max-height: 92vh; object-fit: contain; }
+#lightbox-close { position: absolute; top: 20px; right: 28px; color: white; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.15em; cursor: pointer; text-transform: uppercase; background: none; border: 1px solid rgba(255,255,255,0.4); padding: 6px 14px; }
 
-/* ============================================================
-   FOOTER
-   ============================================================ */
-footer {
-  border-top: 3px solid var(--ink);
-  padding: 28px 48px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  background: var(--paper);
-  margin-top: 80px;
-}
-
-footer a {
-  color: var(--ink);
-  text-decoration: none;
-  transition: color 0.2s;
-}
+/* FOOTER */
+footer { border-top: 3px solid var(--ink); padding: 28px 48px; display: flex; justify-content: space-between; align-items: center; font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; background: var(--paper); margin-top: 80px; }
+footer a { color: var(--ink); text-decoration: none; transition: color 0.2s; }
 footer a:hover { color: var(--red); }
-
 .footer-links { display: flex; gap: 24px; }
 
-/* ============================================================
-   RESPONSIVE
-   ============================================================ */
+/* RESPONSIVE */
 @media (max-width: 900px) {
-  .masthead { padding: 0 20px; }
+  .masthead, .works-section { padding: 0 20px; }
   .works-section { padding: 40px 20px 60px; }
   #page-about, #page-works { padding: 100px 20px 60px; }
-
-  .home-works-grid {
-    grid-template-columns: 1fr;
-  }
+  .home-works-grid { grid-template-columns: 1fr; }
   .col-divider { display: none; }
   .home-work-col { padding: 0; border-bottom: 1px solid var(--ink); padding-bottom: 20px; margin-bottom: 20px; }
-
-  .about-grid {
-    grid-template-columns: 1fr;
-  }
+  .about-grid { grid-template-columns: 1fr; }
   .about-photo-col { padding-right: 0; margin-bottom: 40px; }
   .about-text-col { padding-left: 0; }
-
-  .works-index-item {
-    grid-template-columns: 60px 1fr;
-  }
+  .works-index-item { grid-template-columns: 60px 1fr; }
   .wii-meta { display: none; }
-
   .modal-inner { padding: 24px 20px 60px; }
-  .spread-grid-3, .spread-grid-2, .spread-grid-mosaic {
-    grid-template-columns: 1fr;
-  }
-  .spread-grid-mosaic .mosaic-stack { flex-direction: row; flex-wrap: wrap; }
-  .spread-img-wrap.tall { min-height: 260px; }
-
+  .spread-grid-4, .spread-grid-3, .spread-grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .spread-grid-1, .spread-grid-1-solo { grid-template-columns: 1fr; }
+  .solo-caption-col { display: none; }
   footer { flex-direction: column; gap: 12px; text-align: center; padding: 20px; }
-
   #nav { gap: 18px; padding: 9px 20px; font-size: 10px; }
 }
 </style>
 </head>
 <body>
 
-<!-- ============================================================
-     NAV
-     ============================================================ -->
 <nav id="nav">
   <a href="#" onclick="showPage('home'); return false;" id="nav-home" class="active">Home</a>
   <a href="#" onclick="showPage('about'); return false;" id="nav-about">About</a>
   <a href="#" onclick="showPage('works'); return false;" id="nav-works">Works</a>
 </nav>
 
-<!-- ============================================================
-     HOME PAGE
-     ============================================================ -->
+<!-- HOME -->
 <div id="page-home" class="page active">
-
-  <!-- Hero masthead — always full viewport -->
   <section class="masthead">
     <div class="masthead-meta">
       <span>Vol. 01 — Issue 42</span>
@@ -774,16 +198,12 @@ footer a:hover { color: var(--red); }
     <div class="scroll-hint">Scroll</div>
   </section>
 
-  <!-- Selected Works -->
   <section class="works-section">
     <div class="section-header">
       <span class="section-label">Selected Works</span>
       <span class="section-page">Page 01</span>
     </div>
-
-    <!-- 3-column newspaper works grid -->
     <div class="home-works-grid">
-      <!-- Col 1 -->
       <div class="home-work-col">
         <div class="home-work-item" onclick="openProject('tedxkiit')">
           <div class="work-item-num">01</div>
@@ -796,10 +216,7 @@ footer a:hover { color: var(--red); }
           <div class="work-item-type">Branding · 2026</div>
         </div>
       </div>
-
       <div class="col-divider"></div>
-
-      <!-- Col 2 -->
       <div class="home-work-col">
         <div class="home-work-item" onclick="openProject('magazines')">
           <div class="work-item-num">03</div>
@@ -812,18 +229,10 @@ footer a:hover { color: var(--red); }
           <div class="work-item-type">Motion · 2026</div>
         </div>
       </div>
-
       <div class="col-divider"></div>
-
-      <!-- Col 3 -->
       <div class="home-work-col">
-        <div class="home-work-item" onclick="openProject('posters')">
-          <div class="work-item-num">05</div>
-          <div class="work-item-title">Posters</div>
-          <div class="work-item-type">Print · 2025</div>
-        </div>
         <div class="home-work-item" onclick="openProject('social')">
-          <div class="work-item-num">06</div>
+          <div class="work-item-num">05</div>
           <div class="work-item-title">Social Media</div>
           <div class="work-item-type">Digital · 2025</div>
         </div>
@@ -840,65 +249,42 @@ footer a:hover { color: var(--red); }
   </footer>
 </div>
 
-<!-- ============================================================
-     ABOUT PAGE
-     ============================================================ -->
+<!-- ABOUT -->
 <div id="page-about" class="page">
   <div class="about-header">
     <h1>Profile<br>&amp; Exposé</h1>
     <div class="about-edition">Edition 01 — Visual Design &amp; Storytelling</div>
   </div>
-
   <div class="about-grid">
-    <!-- Left: Photo -->
     <div class="about-photo-col">
-      <!-- ============================================================
-           UPDATE YOUR PHOTO: Replace the src below with your own photo URL.
-           You can upload your photo to Google Drive, make it public,
-           then use: https://drive.google.com/uc?export=view&id=YOUR_FILE_ID
-           ============================================================ -->
+      <!-- UPDATE PHOTO: share your photo on Drive publicly, then replace YOUR_PHOTO_FILE_ID below -->
       <div class="about-photo-wrap">
         <img
-          src="https://drive.google.com/uc?export=view&id=YOUR_PHOTO_FILE_ID"
+          src="https://lh3.googleusercontent.com/d/YOUR_PHOTO_FILE_ID"
           alt="Portrait of Prayag Ghosh"
-          onerror="this.parentElement.style.minHeight='400px'; this.parentElement.style.display='flex'; this.parentElement.style.alignItems='center'; this.parentElement.style.justifyContent='center'; this.outerHTML='<div style=\'font-family:var(--font-mono);font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--mid);padding:40px;text-align:center\'>[ Add your photo — see code comment ]</div>'"
+          onerror="this.parentElement.innerHTML='<div style=\'min-height:360px;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--mid);padding:40px;text-align:center\'>[Upload your photo — see code comment]</div>'"
         >
       </div>
       <div class="about-photo-caption">Fig. 1 — The Designer</div>
     </div>
-
-    <div class="col-divider" style="margin: 0 0;"></div>
-
-    <!-- Right: Bio -->
+    <div class="col-divider"></div>
     <div class="about-text-col">
       <p class="drop-cap-para">
-        <span class="drop-cap-letter">H</span>ello, I'm Prayag Ghosh.
-        Multidisciplinary Visual Designer &amp; Storyteller.
-        I create high-impact digital experiences driven by intentionality, structure, and emotion.
-        For me, design is about more than just aesthetics — it's about crafting a cohesive narrative,
-        whether that's through a sleek publication layout, a bold brand identity, or cinematic visuals.
-        I obsess over the details that make a project memorable: the perfect typographic pairing,
-        the exact balance of a grid, and the precise color grading that captures a specific mood.
+        <span class="drop-cap-letter">H</span>ello, I'm Prayag Ghosh. Multidisciplinary Visual Designer &amp; Storyteller. I create high-impact digital experiences driven by intentionality, structure, and emotion. For me, design is about more than just aesthetics — it's about crafting a cohesive narrative, whether that's through a sleek publication layout, a bold brand identity, or cinematic visuals. I obsess over the details that make a project memorable: the perfect typographic pairing, the exact balance of a grid, and the precise color grading that captures a specific mood.
       </p>
-
       <div class="what-i-do-header">What I Do</div>
-
       <div class="service-item">
         <span class="service-title">01. Graphic &amp; Layout Design</span>
-        Translating complex information into beautiful, scannable print and digital layouts — from
-        multi-page editorial magazines (like Samikhya and KSAC Kaptures) to high-impact promotional posters.
+        Translating complex information into beautiful, scannable print and digital layouts — from multi-page editorial magazines (like Samikhya and KSAC Kaptures) to high-impact promotional posters.
       </div>
       <div class="service-item">
         <span class="service-title">02. Branding &amp; Identity</span>
-        Developing cohesive visual languages from scratch, with a strong appreciation for bold
-        typography and striking, retro-inspired aesthetics.
+        Developing cohesive visual languages from scratch, with a strong appreciation for bold typography and striking, retro-inspired aesthetics.
       </div>
       <div class="service-item">
         <span class="service-title">03. Visual Storytelling</span>
-        Combining digital photography, creative direction, and cinematic poster design to build
-        immersive worlds for events and media.
+        Combining digital photography, creative direction, and cinematic poster design to build immersive worlds for events and media.
       </div>
-
       <div class="contact-box">
         <div class="contact-box-title">Let's Build Something Together</div>
         <div class="contact-links">
@@ -909,7 +295,6 @@ footer a:hover { color: var(--red); }
       </div>
     </div>
   </div>
-
   <footer>
     <span>© 2026 Prayag Ghosh. All rights reserved. Printed in Kolkata.</span>
     <div class="footer-links">
@@ -919,22 +304,13 @@ footer a:hover { color: var(--red); }
   </footer>
 </div>
 
-<!-- ============================================================
-     WORKS INDEX PAGE
-     ============================================================ -->
+<!-- WORKS INDEX -->
 <div id="page-works" class="page">
   <div class="works-page-header">
     <h1 class="works-page-title">Works</h1>
     <span class="works-archive-label">Vol. 1 / Archive</span>
   </div>
-
   <div class="works-index-list">
-    <!-- ============================================================
-         ADD NEW PROJECT: Copy one works-index-item block below,
-         update the number, title, description, type/year,
-         and change the onclick to openProject('your-project-key').
-         Then add a matching entry in the PROJECTS object in JS below.
-         ============================================================ -->
     <div class="works-index-item" onclick="openProject('magazines')">
       <div class="wii-num">01</div>
       <div class="wii-info">
@@ -943,7 +319,6 @@ footer a:hover { color: var(--red); }
       </div>
       <div class="wii-meta">TYPE: EDITORIAL<br>YEAR: 2025</div>
     </div>
-
     <div class="works-index-item" onclick="openProject('tedxkiit')">
       <div class="wii-num">02</div>
       <div class="wii-info">
@@ -952,7 +327,6 @@ footer a:hover { color: var(--red); }
       </div>
       <div class="wii-meta">TYPE: BRANDING<br>YEAR: 2026</div>
     </div>
-
     <div class="works-index-item" onclick="openProject('sdis')">
       <div class="wii-num">03</div>
       <div class="wii-info">
@@ -961,7 +335,6 @@ footer a:hover { color: var(--red); }
       </div>
       <div class="wii-meta">TYPE: BRANDING<br>YEAR: 2026</div>
     </div>
-
     <div class="works-index-item" onclick="openProject('movies')">
       <div class="wii-num">04</div>
       <div class="wii-info">
@@ -970,26 +343,15 @@ footer a:hover { color: var(--red); }
       </div>
       <div class="wii-meta">TYPE: MOTION<br>YEAR: 2026</div>
     </div>
-
-    <div class="works-index-item" onclick="openProject('posters')">
+    <div class="works-index-item" onclick="openProject('social')">
       <div class="wii-num">05</div>
       <div class="wii-info">
-        <div class="wii-title">Posters</div>
-        <div class="wii-desc">Bold, typographic poster design for events, exhibitions, and public display.</div>
-      </div>
-      <div class="wii-meta">TYPE: PRINT<br>YEAR: 2025</div>
-    </div>
-
-    <div class="works-index-item" onclick="openProject('social')">
-      <div class="wii-num">06</div>
-      <div class="wii-info">
         <div class="wii-title">Social Media</div>
-        <div class="wii-desc">High-impact social media campaigns and content design for scroll-stopping visuals.</div>
+        <div class="wii-desc">High-impact social media campaigns and content design.</div>
       </div>
       <div class="wii-meta">TYPE: DIGITAL<br>YEAR: 2025</div>
     </div>
   </div>
-
   <footer>
     <span>© 2026 Prayag Ghosh. All rights reserved. Printed in Kolkata.</span>
     <div class="footer-links">
@@ -999,9 +361,7 @@ footer a:hover { color: var(--red); }
   </footer>
 </div>
 
-<!-- ============================================================
-     NEWSPAPER SPREAD MODAL
-     ============================================================ -->
+<!-- MODAL -->
 <div id="modal-overlay">
   <div class="modal-inner">
     <button class="modal-close" onclick="closeModal()">✕ Close</button>
@@ -1009,35 +369,22 @@ footer a:hover { color: var(--red); }
   </div>
 </div>
 
-<!-- Lightbox for full-size image view -->
+<!-- LIGHTBOX -->
 <div id="lightbox">
   <button id="lightbox-close" onclick="closeLightbox()">✕ Close</button>
   <img id="lightbox-img" src="" alt="">
 </div>
 
-<!-- ============================================================
-     JAVASCRIPT
-     ============================================================ -->
 <script>
-/* ============================================================
-   HELPER — Google Drive image URL from file ID
-   ============================================================ */
 function driveImg(id) {
   return `https://lh3.googleusercontent.com/d/${id}`;
 }
 
 /* ============================================================
    PROJECTS DATA
-   Each project has: title, type, year, sections[]
-   Each section has: label (optional), images[]
-   Each image has: id (Drive file ID), caption, size (tall/medium/short)
-
-   TO ADD A NEW PROJECT:
-   1. Add a new key below (e.g. 'newproject')
-   2. Fill in title, type, year
-   3. Add sections with your Drive image file IDs
-   4. Add a works-index-item in the HTML above with onclick="openProject('newproject')"
-   5. Make sure the Drive file is shared publicly ("Anyone with the link")
+   To add a new project: add a key here + a works-index-item in the HTML.
+   To add images: get the Drive file ID and add to the images array.
+   All Drive files must be shared as "Anyone with the link".
    ============================================================ */
 const PROJECTS = {
 
@@ -1049,26 +396,26 @@ const PROJECTS = {
       {
         label: "Social Media",
         images: [
-          { id: "1NR5nVrF65zCdsckYcDsX194fCyG7-EFx", caption: "Collab Post", size: "medium" },
-          { id: "1v9aFha-0ma3XgfigGk-TPtKrm8pLg_AT", caption: "Speaker Nomination", size: "tall" },
+          { id: "1NR5nVrF65zCdsckYcDsX194fCyG7-EFx", caption: "Collab Post", orient: "portrait" },
+          { id: "1v9aFha-0ma3XgfigGk-TPtKrm8pLg_AT", caption: "Speaker Nomination", orient: "portrait" },
         ]
       },
       {
         label: "Standees",
         images: [
-          { id: "15AGzUpQCZQT70K9F4D7yhA4RnIQhm9uk", caption: "Standee Design", size: "tall" },
+          { id: "15AGzUpQCZQT70K9F4D7yhA4RnIQhm9uk", caption: "Standee Design", orient: "portrait" },
         ]
       },
       {
         label: "Invitation Letter",
         images: [
-          { id: "1Ar1g00Zlin8FWT3pTkuRQzP9GOms7JI_", caption: "Founder Invitation", size: "tall" },
+          { id: "1Ar1g00Zlin8FWT3pTkuRQzP9GOms7JI_", caption: "Founder Invitation", orient: "portrait" },
         ]
       },
       {
         label: "ID Card",
         images: [
-          { id: "1ENkqL9nRxJkuTWpDdxHze6bST0Z8e3eA", caption: "Officer ID Card", size: "medium" },
+          { id: "1ENkqL9nRxJkuTWpDdxHze6bST0Z8e3eA", caption: "Officer ID Card", orient: "landscape" },
         ]
       }
     ]
@@ -1082,8 +429,29 @@ const PROJECTS = {
       {
         label: "Posters",
         images: [
-          { id: "1vwCdrtb1yxFrdewovdhz8kavjNWpE6-p", caption: "Hands On Hub", size: "tall" },
-          { id: "1mSDWtFeEo79mLKfJY142UZ0e2Hwsfg_p", caption: "Registration Open — A3", size: "tall" },
+          { id: "1vwCdrtb1yxFrdewovdhz8kavjNWpE6-p", caption: "Hands On Hub", orient: "landscape" },
+          { id: "1mSDWtFeEo79mLKfJY142UZ0e2Hwsfg_p", caption: "Registration Open — A3", orient: "portrait" },
+        ]
+      },
+      {
+        label: "Social Media",
+        images: [
+          { id: "1uzpGA3ivDinBax2Ck7mdBToB0pBoujOe", caption: "Hands On Hub Workshop", orient: "portrait" },
+          { id: "1ZtYw0UOnnZb8vhCfdOpS6FtwdQhVpWWl", caption: "Registration Open", orient: "portrait" },
+        ]
+      },
+      {
+        label: "Flags",
+        images: [
+          { id: "162aLJjZDYRoTH9j9ETTK01kifw0BXu3g", caption: "Red Mockup", orient: "landscape" },
+          { id: "1E8Km8LwsrV-n9QV6enczlJZr97lNQgHA", caption: "Purple Mockup", orient: "landscape" },
+          { id: "1z0nZ_CgPHI8LRzVr-wWmyehFyfPhTnFB", caption: "Blue Mockup", orient: "landscape" },
+        ]
+      },
+      {
+        label: "Banner",
+        images: [
+          { id: "1-6incfqZH6TmI6KyfNwTOGEnCDv8qxE2", caption: "5 Speaker Banner", orient: "landscape" },
         ]
       }
     ]
@@ -1095,8 +463,18 @@ const PROJECTS = {
     year: "2025",
     sections: [
       {
+        label: "KIIT MUN — Samikhya",
+        pdf: "https://drive.google.com/file/d/1pdDqX_XQOi3i9kJ6gAny3ualNLDBoi0I/preview",
+        images: []
+      },
+      {
         label: "KSAC Kaptures — March 2026",
         pdf: "https://drive.google.com/file/d/1sDZsKdBNI9iL8CFZCDmbU7oP27mnOUkG/preview",
+        images: []
+      },
+      {
+        label: "Mindscapes — School Magazine 2023–24",
+        pdf: "https://drive.google.com/file/d/1RWDuhJS0U1_9NfbLEwRszinOSK7hRzar/preview",
         images: []
       }
     ]
@@ -1110,21 +488,7 @@ const PROJECTS = {
       {
         label: "Dhwani",
         images: [
-          { id: "1oyZZfwhotrnPMU02LURsvIpLb2bWwkXF", caption: "Dhwani — Final Poster", size: "tall" },
-        ]
-      }
-    ]
-  },
-
-  posters: {
-    title: "Posters",
-    type: "Print · Typographic Design",
-    year: "2025",
-    sections: [
-      {
-        label: "Print Collection",
-        images: [
-          { id: "1wbN1KOjGhfowJRR3x6YPtMUSWNhPF2Tn", caption: "Poster", size: "tall" },
+          { id: "1oyZZfwhotrnPMU02LURsvIpLb2bWwkXF", caption: "Dhwani — Final Poster", orient: "portrait" },
         ]
       }
     ]
@@ -1138,12 +502,12 @@ const PROJECTS = {
       {
         label: "Campaign Assets",
         images: [
-          { id: "1nsJIWkq12tBGKzna0q9j1Qt3w1ry83Na", caption: "Republic Day Post", size: "medium" },
-          { id: "1kAiRqpyGL0y-qo3v6KdOIqJH4E4nmvqb", caption: "Republic Day Post (alt)", size: "medium" },
-          { id: "1EAn2aswXRn0riGqJSe8SjD9_hrgfgFYY", caption: "Registration Open", size: "tall" },
-          { id: "1gi9rEBq93YooL4dj-P-X4wIgFc4HRKuh", caption: "Hands On Hub Workshop", size: "tall" },
-          { id: "1e3DJ26CBnscCfAlM_WxQzA_Nr_xVQgNu", caption: "Collab Post", size: "medium" },
-          { id: "1i7GWxiN20oRuYuLtcSZKfixAyantD2rS", caption: "Speaker Nomination", size: "tall" },
+          { id: "1nsJIWkq12tBGKzna0q9j1Qt3w1ry83Na", caption: "Republic Day Post", orient: "portrait" },
+          { id: "1kAiRqpyGL0y-qo3v6KdOIqJH4E4nmvqb", caption: "Republic Day Post (alt)", orient: "portrait" },
+          { id: "1EAn2aswXRn0riGqJSe8SjD9_hrgfgFYY", caption: "Registration Open", orient: "portrait" },
+          { id: "1gi9rEBq93YooL4dj-P-X4wIgFc4HRKuh", caption: "Hands On Hub Workshop", orient: "portrait" },
+          { id: "1e3DJ26CBnscCfAlM_WxQzA_Nr_xVQgNu", caption: "Collab Post", orient: "portrait" },
+          { id: "1i7GWxiN20oRuYuLtcSZKfixAyantD2rS", caption: "Speaker Nomination", orient: "portrait" },
         ]
       }
     ]
@@ -1151,9 +515,7 @@ const PROJECTS = {
 
 };
 
-/* ============================================================
-   PAGE NAVIGATION
-   ============================================================ */
+/* PAGE SWITCHING */
 function showPage(name) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('#nav a').forEach(a => a.classList.remove('active'));
@@ -1166,16 +528,12 @@ function showPage(name) {
   return false;
 }
 
-/* ============================================================
-   OPEN PROJECT MODAL
-   ============================================================ */
+/* OPEN PROJECT MODAL */
 function openProject(key) {
   const project = PROJECTS[key];
   if (!project) return;
-
   const container = document.getElementById('modal-content');
 
-  // Build the newspaper spread HTML
   let html = `
     <div class="spread-masthead">
       <div class="spread-dateline">Portfolio — Prayag Ghosh · ${project.type}</div>
@@ -1188,39 +546,34 @@ function openProject(key) {
       html += `<div class="spread-section-label">${section.label}</div>`;
     }
 
-    // PDF embed
+    // PDF
     if (section.pdf) {
-      html += `
-        <div class="spread-pdf-wrap">
-          <iframe src="${section.pdf}" allowfullscreen></iframe>
-        </div>
-        <div class="img-caption">${section.label || ''} — PDF Publication</div>
-      `;
+      html += `<div class="spread-pdf-wrap"><iframe src="${section.pdf}" allowfullscreen></iframe></div>`;
+      html += `<div class="pdf-caption">${section.label || ''} — PDF Publication</div>`;
     }
 
-    // Images — pick layout based on count
     const imgs = section.images || [];
     if (imgs.length === 0) return;
 
     if (imgs.length === 1) {
-      html += `<div class="spread-grid spread-grid-1">`;
+      // Single image: show at reasonable size with a side caption column
+      html += `<div class="spread-grid spread-grid-1-solo">`;
       html += imgCard(imgs[0]);
+      html += `<div class="solo-caption-col">
+        <div class="big-num">— </div>
+        <div class="solo-label">${imgs[0].caption}</div>
+      </div>`;
       html += `</div>`;
     } else if (imgs.length === 2) {
       html += `<div class="spread-grid spread-grid-2">`;
       imgs.forEach(img => { html += imgCard(img); });
       html += `</div>`;
     } else if (imgs.length === 3) {
-      // Mosaic: first big, two stacked
-      html += `<div class="spread-grid-mosaic">`;
-      html += imgCard(imgs[0], 'tall');
-      html += `<div class="mosaic-stack">`;
-      html += imgCard(imgs[1], 'medium');
-      html += imgCard(imgs[2], 'medium');
-      html += `</div></div>`;
+      html += `<div class="spread-grid spread-grid-3">`;
+      imgs.forEach(img => { html += imgCard(img); });
+      html += `</div>`;
     } else {
-      // 4+ images: 2-col grid
-      html += `<div class="spread-grid spread-grid-2">`;
+      html += `<div class="spread-grid spread-grid-4">`;
       imgs.forEach(img => { html += imgCard(img); });
       html += `</div>`;
     }
@@ -1228,7 +581,6 @@ function openProject(key) {
 
   container.innerHTML = html;
 
-  // Attach lightbox listeners
   container.querySelectorAll('.spread-img-wrap img').forEach(img => {
     img.addEventListener('click', () => openLightbox(img.src));
   });
@@ -1237,11 +589,11 @@ function openProject(key) {
   document.body.style.overflow = 'hidden';
 }
 
-function imgCard(img, forcedSize) {
-  const size = forcedSize || img.size || 'medium';
+function imgCard(img) {
+  const heightClass = img.orient === 'portrait' ? 'portrait' : 'landscape';
   return `
-    <div class="spread-img-wrap ${size}">
-      <img src="${driveImg(img.id)}" alt="${img.caption}" loading="lazy">
+    <div class="spread-img-wrap">
+      <img src="${driveImg(img.id)}" alt="${img.caption}" class="${heightClass}" loading="lazy">
       <div class="img-caption">${img.caption}</div>
     </div>
   `;
@@ -1252,31 +604,21 @@ function closeModal() {
   document.body.style.overflow = '';
 }
 
-// Close modal on Escape
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    closeLightbox();
-    closeModal();
-  }
+  if (e.key === 'Escape') { closeLightbox(); closeModal(); }
 });
 
-/* ============================================================
-   LIGHTBOX
-   ============================================================ */
 function openLightbox(src) {
   document.getElementById('lightbox-img').src = src;
   document.getElementById('lightbox').classList.add('open');
 }
-
 function closeLightbox() {
   document.getElementById('lightbox').classList.remove('open');
   document.getElementById('lightbox-img').src = '';
 }
-
 document.getElementById('lightbox').addEventListener('click', function(e) {
   if (e.target === this) closeLightbox();
 });
 </script>
-
 </body>
 </html>
