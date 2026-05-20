@@ -19,7 +19,10 @@
   --font-mono: 'IBM Plex Mono', monospace;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { 
+  scroll-behavior: smooth; 
+  scroll-snap-type: y mandatory;
+}
 body { background: var(--paper); color: var(--ink); font-family: var(--font-serif); min-height: 100vh; overflow-x: hidden; }
 
 /* NAV */
@@ -34,7 +37,7 @@ body { background: var(--paper); color: var(--ink); font-family: var(--font-seri
 #nav a:hover, #nav a.active { color: var(--red); }
 
 /* PAGES */
-.page { display: none !important; min-height: 100vh; }
+.page { display: none !important; width: 100%; }
 .page.active { display: block !important; }
 
 .masthead { height: 100vh; height: 100svh; display: flex; flex-direction: column; padding: 80px 20px 24px; position: relative; scroll-snap-align: start; box-sizing: border-box; }
@@ -59,7 +62,7 @@ body { background: var(--paper); color: var(--ink); font-family: var(--font-seri
 .masthead-tagline { text-align: center; margin-top: 32px; font-family: var(--font-serif); font-style: italic; font-size: clamp(1rem, 2vw, 1.5rem); color: var(--mid); letter-spacing: 0.01em; }
 
 /* HOME WORKS */
-.works-section { padding: 60px 48px 80px; border-top: 4px double var(--ink); }
+.works-section { padding: 60px 48px 80px; border-top: 4px double var(--ink); scroll-snap-align: start; }
 .section-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--ink); padding-bottom: 12px; margin-bottom: 40px; }
 .section-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; display: flex; align-items: center; gap: 10px; }
 .section-label::before { content: ''; width: 8px; height: 8px; background: var(--red); display: inline-block; }
@@ -245,8 +248,7 @@ footer a:hover { color: var(--red); }
   <a href="#" onclick="showPage('works'); return false;" id="nav-works">Works</a>
 </nav>
 
-<!-- HOME -->
-<div id="page-home" class="page active" style="scroll-snap-type: y mandatory; overflow-y: auto; height: 100vh; height: 100svh;">
+<div id="page-home" class="page active">
   <section class="masthead">
     <div class="masthead-content">
       <div class="masthead-meta">
@@ -256,8 +258,8 @@ footer a:hover { color: var(--red); }
       </div>
       <h1 class="masthead-name"><span class="name-desktop">Prayag Ghosh</span><span class="name-mobile">Prayag<br>Ghosh</span></h1>
       <div class="masthead-sub">
-        <span>Designer &amp; Storyteller</span>
-        <span>Archive — Digital Edition &#9632;</span>
+        <span>Designer & Storyteller</span>
+        <span>Archive — Digital Edition ■</span>
       </div>
       <p class="masthead-tagline">"Crafting narratives through type, layout, and visual language."</p>
     </div>
@@ -266,7 +268,7 @@ footer a:hover { color: var(--red); }
     </div>
   </section>
 
-  <section class="works-section" style="scroll-snap-align: start;">
+  <section class="works-section">
     <div class="section-header">
       <span class="section-label">Selected Works</span>
       <span class="section-page">Page 01</span>
@@ -317,15 +319,13 @@ footer a:hover { color: var(--red); }
   </footer>
 </div>
 
-<!-- ABOUT -->
 <div id="page-about" class="page">
   <div class="about-header">
-    <h1>Profile &amp; Exposé</h1>
-    <div class="about-edition">Edition 01 — Visual Design &amp; Storytelling</div>
+    <h1>Profile & Exposé</h1>
+    <div class="about-edition">Edition 01 — Visual Design & Storytelling</div>
   </div>
   <div class="about-grid">
     <div class="about-photo-col">
-      <!-- UPDATE PHOTO: share your photo on Drive publicly, then replace YOUR_PHOTO_FILE_ID below -->
       <div class="about-photo-wrap">
         <img
           src="https://lh3.googleusercontent.com/d/1fb10E4txI5ZIwLZ39e0Bi6EDBJLsuddz"
@@ -334,7 +334,6 @@ footer a:hover { color: var(--red); }
         >
       </div>
       <div class="about-photo-caption">Fig. 1 — The Designer</div>
-      <!-- Tools block under photo on desktop -->
       <div class="tools-block tools-desktop">
         <div class="tools-label">Built With</div>
         <div class="tools-row">
@@ -347,22 +346,21 @@ footer a:hover { color: var(--red); }
     <div class="col-divider"></div>
     <div class="about-text-col">
       <p class="drop-cap-para">
-        <span class="drop-cap-letter">H</span>ello, I'm Prayag Ghosh. Multidisciplinary Designer &amp; Storyteller. I create high-impact digital experiences driven by intentionality, structure, and emotion. For me, design is about more than just aesthetics — it's about crafting a cohesive narrative, whether that's through a sleek publication layout, a bold brand identity, or cinematic visuals. I obsess over the details that make a project memorable: the perfect typographic pairing, the exact balance of a grid, and the precise color grading that captures a specific mood.
+        <span class="drop-cap-letter">H</span>ello, I'm Prayag Ghosh. Multidisciplinary Designer & Storyteller. I create high-impact digital experiences driven by intentionality, structure, and emotion. For me, design is about more than just aesthetics — it's about crafting a cohesive narrative, whether that's through a sleek publication layout, a bold brand identity, or cinematic visuals. I obsess over the details that make a project memorable: the perfect typographic pairing, the exact balance of a grid, and the precise color grading that captures a specific mood.
       </p>
       <div class="what-i-do-header">What I Do</div>
       <div class="service-item">
-        <span class="service-title">01. Graphic &amp; Layout Design</span>
+        <span class="service-title">01. Graphic & Layout Design</span>
         Translating complex information into beautiful, scannable print and digital layouts — from multi-page editorial magazines (like Samikhya and KSAC Kaptures) to high-impact promotional posters.
       </div>
       <div class="service-item">
-        <span class="service-title">02. Branding &amp; Identity</span>
+        <span class="service-title">02. Branding & Identity</span>
         Developing cohesive visual languages from scratch, with a strong appreciation for bold typography and striking, retro-inspired aesthetics.
       </div>
       <div class="service-item">
         <span class="service-title">03. Visual Storytelling</span>
         Combining creative direction and cinematic poster design to build immersive worlds for events and media.
       </div>
-      <!-- Tools block after What I Do on mobile only -->
       <div class="tools-block tools-mobile">
         <div class="tools-label">Built With</div>
         <div class="tools-row">
@@ -381,7 +379,6 @@ footer a:hover { color: var(--red); }
       </div>
     </div>
   </div>
-  </div>
   <footer>
     <span>© 2026 Prayag Ghosh. All rights reserved. Printed in Kolkata.</span>
     <div class="footer-links">
@@ -391,7 +388,6 @@ footer a:hover { color: var(--red); }
   </footer>
 </div>
 
-<!-- WORKS INDEX -->
 <div id="page-works" class="page">
   <div class="works-page-header">
     <h1 class="works-page-title">Works</h1>
@@ -448,7 +444,6 @@ footer a:hover { color: var(--red); }
   </footer>
 </div>
 
-<!-- MODAL -->
 <div id="modal-overlay">
   <div class="modal-inner">
     <button class="modal-close" onclick="closeModal()">✕ Close</button>
@@ -456,7 +451,6 @@ footer a:hover { color: var(--red); }
   </div>
 </div>
 
-<!-- LIGHTBOX -->
 <div id="lightbox">
   <button id="lightbox-close" onclick="closeLightbox()">✕ Close</button>
   <img id="lightbox-img" src="" alt="">
@@ -467,14 +461,7 @@ function driveImg(id) {
   return `https://lh3.googleusercontent.com/d/${id}`;
 }
 
-/* ============================================================
-   PROJECTS DATA
-   To add a new project: add a key here + a works-index-item in the HTML.
-   To add images: get the Drive file ID and add to the images array.
-   All Drive files must be shared as "Anyone with the link".
-   ============================================================ */
 const PROJECTS = {
-
   tedxkiit: {
     title: "TEDxKIIT 2026",
     type: "Branding · Event Identity",
@@ -507,7 +494,6 @@ const PROJECTS = {
       }
     ]
   },
-
   sdis: {
     title: "SDIS 2026",
     type: "Branding · Visual System",
@@ -543,7 +529,6 @@ const PROJECTS = {
       }
     ]
   },
-
   magazines: {
     title: "Magazines",
     type: "Editorial · Layout Design",
@@ -571,7 +556,6 @@ const PROJECTS = {
       }
     ]
   },
-
   movies: {
     title: "Movies",
     type: "Motion · Cinematic Design",
@@ -585,7 +569,6 @@ const PROJECTS = {
       }
     ]
   },
-
   social: {
     title: "Social Media",
     type: "Digital · Campaign Design",
@@ -604,7 +587,6 @@ const PROJECTS = {
       }
     ]
   }
-
 };
 
 /* PAGE SWITCHING */
@@ -615,24 +597,22 @@ function showPage(name, pushState = true) {
   if (target) target.classList.add('active');
   const navLink = document.getElementById('nav-' + name);
   if (navLink) navLink.classList.add('active');
+  
+  // Resets viewport back up cleanly for the whole window
   document.documentElement.scrollTop = 0;
   document.body.scrollTop = 0;
+  
   if (pushState) {
     history.pushState({ page: name }, '', '#' + name);
   }
   return false;
 }
 
-// Dynamically fit name to full masthead width
-// Dynamically fit name to full masthead width - CSS handles this now
-
-// Handle browser back/forward buttons
 window.addEventListener('popstate', function(e) {
   const page = (e.state && e.state.page) ? e.state.page : 'home';
   showPage(page, false);
 });
 
-// Handle direct URL with hash on load
 window.addEventListener('DOMContentLoaded', function() {
   const hash = window.location.hash.replace('#', '');
   const validPages = ['home', 'about', 'works'];
@@ -657,7 +637,6 @@ function openProject(key) {
     </div>
   `;
 
-  // Collect all PDF sections and render two per row
   const pdfSections = project.sections.filter(s => s.pdf);
   const imgSections = project.sections.filter(s => !s.pdf && !s.driveLink);
 
@@ -681,8 +660,6 @@ function openProject(key) {
     }
   }
 
-  // Group single-image sections into pairs, multi-image sections render normally
-  const singles = [];
   const processed = new Set();
 
   imgSections.forEach((section, i) => {
@@ -690,7 +667,6 @@ function openProject(key) {
     const imgs = section.images || [];
 
     if (imgs.length === 1) {
-      // Look for next single-image section to pair with
       let paired = null;
       for (let j = i + 1; j < imgSections.length; j++) {
         if (!processed.has(j) && (imgSections[j].images || []).length === 1) {
@@ -700,7 +676,6 @@ function openProject(key) {
       }
 
       if (paired !== null) {
-        // Render two single-image sections side by side
         const pairSection = imgSections[paired];
         processed.add(i);
         processed.add(paired);
@@ -715,7 +690,6 @@ function openProject(key) {
         html += `</div>`;
         html += `</div>`;
       } else {
-        // Truly alone — show at half width with caption beside
         processed.add(i);
         html += `<div class="spread-section-label">${section.label}</div>`;
         html += `<div style="display:flex;justify-content:center;">`;
@@ -725,7 +699,6 @@ function openProject(key) {
         html += `</div>`;
       }
     } else {
-      // Multi-image section — render normally
       processed.add(i);
       html += `<div class="spread-section-label">${section.label}</div>`;
       if (imgs.length === 2) {
@@ -807,7 +780,6 @@ function focusMagazine(groupId, activeIndex) {
     const pdfSrc = wrap.dataset.pdfSrc;
 
     if (idx === activeIndex) {
-      // Swap cover image for live iframe
       const cover = wrap.querySelector('.pdf-cover');
       const existingIframe = wrap.querySelector('iframe');
       if (cover && !existingIframe) {
@@ -840,9 +812,7 @@ function closeModal() {
   history.back();
 }
 
-// Handle browser back/forward — covers both pages and modal
 window.addEventListener('popstate', function(e) {
-  // Close modal if open
   const modal = document.getElementById('modal-overlay');
   if (modal.classList.contains('open')) {
     modal.classList.remove('open');
