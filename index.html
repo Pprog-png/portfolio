@@ -336,7 +336,7 @@ footer a:hover { color: var(--red); }
   <footer>
     <span>© 2026 Prayag Ghosh. All rights reserved. Printed in Kolkata.</span>
     <div class="footer-links">
-      <a onclick="launchEmail(event)">Email</a>
+      <a onclick="handleEmailClick(this)">Email</a>
       <a href="https://linkedin.com/in/prayag-ghosh-6b042937b/" target="_blank">LinkedIn</a>
     </div>
   </footer>
@@ -395,7 +395,7 @@ footer a:hover { color: var(--red); }
       <div class="contact-box">
         <div class="contact-box-title">Let's Build Something Together</div>
         <div class="contact-links">
-          <a onclick="launchEmail(event)">ghoshprayag@gmail.com</a>
+          <a onclick="handleEmailClick(this)">ghoshprayag@gmail.com</a>
           <span>|</span>
           <a href="https://linkedin.com/in/prayag-ghosh-6b042937b/" target="_blank">linkedin.com/in/prayag-ghosh-6b042937b/</a>
         </div>
@@ -405,7 +405,7 @@ footer a:hover { color: var(--red); }
   <footer>
     <span>© 2026 Prayag Ghosh. All rights reserved. Printed in Kolkata.</span>
     <div class="footer-links">
-      <a onclick="launchEmail(event)">Email</a>
+      <a onclick="handleEmailClick(this)">Email</a>
       <a href="https://linkedin.com/in/prayag-ghosh-6b042937b/" target="_blank">LinkedIn</a>
     </div>
   </footer>
@@ -461,7 +461,7 @@ footer a:hover { color: var(--red); }
   <footer>
     <span>© 2026 Prayag Ghosh. All rights reserved. Printed in Kolkata.</span>
     <div class="footer-links">
-      <a onclick="launchEmail(event)">Email</a>
+      <a onclick="handleEmailClick(this)">Email</a>
       <a href="https://linkedin.com/in/prayag-ghosh-6b042937b/" target="_blank">LinkedIn</a>
     </div>
   </footer>
@@ -484,13 +484,34 @@ function driveImg(id) {
   return `https://lh3.googleusercontent.com/d/${id}`;
 }
 
-/* OVERRIDE FUNCTION TO FORCE SYSTEM MAIL CLIENT LAUNCH */
-function launchEmail(e) {
-  if (e) {
-    e.preventDefault();
-    e.stopPropagation();
-  }
-  window.location.href = "mailto:ghoshprayag@gmail.com";
+/* BULLETPROOF FAIL-SAFE CLIPBOARD BACKUP ENGINE */
+function handleEmailClick(element) {
+  const emailStr = "ghoshprayag@gmail.com";
+  const originalText = element.innerText;
+
+  // 1. First, attempt to open via standard fallback method
+  const fallbackWindow = window.open("mailto:" + emailStr, '_self');
+  
+  // 2. Second, run Clipboard engine silently to copy the text layout automatically
+  navigator.clipboard.writeText(emailStr).then(() => {
+    element.innerText = "COPIED TO CLIPBOARD!";
+    element.style.color = "#ff8a80";
+    setTimeout(() => {
+      element.innerText = originalText;
+      element.style.color = "";
+    }, 1800);
+  }).catch(() => {
+    // Legacy fallback command for stubborn mobile viewports
+    const hiddenInput = document.createElement("input");
+    hiddenInput.value = emailStr;
+    document.body.appendChild(hiddenInput);
+    hiddenInput.select();
+    document.execCommand("copy");
+    document.body.removeChild(hiddenInput);
+    
+    element.innerText = "COPIED TO CLIPBOARD!";
+    setTimeout(() => { element.innerText = originalText; }, 1800);
+  });
 }
 
 const PROJECTS = {
