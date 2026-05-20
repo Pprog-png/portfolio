@@ -37,17 +37,26 @@ body { background: var(--paper); color: var(--ink); font-family: var(--font-seri
 .page { display: none !important; min-height: 100vh; }
 .page.active { display: block !important; }
 
-/* MASTHEAD */
-.masthead { height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 0 48px; position: relative; scroll-snap-align: start; }
-.masthead-meta { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; border-bottom: 2px solid var(--ink); padding-bottom: 10px; }
-.masthead-name { font-family: var(--font-serif); font-weight: 900; font-size: clamp(4rem, 14vw, 16rem); line-height: 0.84; letter-spacing: -0.04em; text-transform: uppercase; border-bottom: 4px solid var(--ink); padding: 12px 0 16px; }
+.masthead { height: 100vh; height: 100svh; display: flex; flex-direction: column; padding: 80px 20px 24px; position: relative; scroll-snap-align: start; box-sizing: border-box; }
+@media (min-width: 901px) { .masthead { padding: 80px 48px 24px; } }
+.masthead-content { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+.masthead-name { font-family: var(--font-serif); font-weight: 900; line-height: 0.85; letter-spacing: -0.04em; text-transform: uppercase; border-top: 4px solid var(--ink); border-bottom: 4px solid var(--ink); padding: 0.48em 0 0.81em 0; margin: 0.18em 0; width: 100%; text-align: center; display: flex; align-items: center; justify-content: center; }
+.name-desktop { display: none; }
+.name-mobile { display: block; font-size: clamp(3.5rem, 21.5vw, 14rem); }
+@media (min-width: 901px) {
+  .name-desktop { display: block; font-size: 11vw; white-space: nowrap; width: 100%; }
+  .name-mobile { display: none; }
+}
+.scroll-hint-wrap { margin-top: auto; padding-top: 24px; display: flex; justify-content: center; }
+.scroll-hint { display: flex; flex-direction: column; align-items: center; gap: 4px; font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mid); animation: bounce 2s infinite; }
+.scroll-hint::after { content: ''; width: 1px; height: 20px; background: var(--ink); display: block; }
+@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(5px)} }
+.masthead-meta { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: clamp(7px, 1.8vw, 10px); letter-spacing: 0.1em; text-transform: uppercase; border-bottom: 2px solid var(--ink); padding-bottom: 10px; gap: 8px; }
+.masthead-meta span { white-space: nowrap; }
 .masthead-sub { display: flex; justify-content: space-between; padding-top: 12px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; border-bottom: 1px solid var(--ink); padding-bottom: 12px; gap: 12px; }
 .masthead-sub span { white-space: nowrap; }
 .masthead-sub span:last-child { text-align: right; }
-.masthead-tagline { text-align: center; margin-top: 28px; font-family: var(--font-serif); font-style: italic; font-size: clamp(0.95rem, 1.8vw, 1.3rem); color: var(--mid); }
-.scroll-hint { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mid); display: flex; flex-direction: column; align-items: center; gap: 4px; animation: bounce 2s infinite; overflow: hidden; max-height: 60px; }
-.scroll-hint::after { content: ''; width: 1px; height: 24px; background: var(--ink); display: block; flex-shrink: 0; }
-@keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+.masthead-tagline { text-align: center; margin-top: 32px; font-family: var(--font-serif); font-style: italic; font-size: clamp(1rem, 2vw, 1.5rem); color: var(--mid); letter-spacing: 0.01em; }
 
 /* HOME WORKS */
 .works-section { padding: 60px 48px 80px; border-top: 4px double var(--ink); }
@@ -79,7 +88,7 @@ body { background: var(--paper); color: var(--ink); font-family: var(--font-seri
 .about-photo-caption { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; text-align: center; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); padding: 6px 0; }
 .about-text-col { padding-left: 48px; }
 .drop-cap-para { font-family: var(--font-mono); font-size: 15px; line-height: 1.85; margin-bottom: 36px; }
-.drop-cap-letter { float: left; font-family: var(--font-serif); font-weight: 900; font-size: 6rem; line-height: 0.82; margin: 0.05em 0.1em -0.1em 0; }
+.drop-cap-letter { float: left; font-family: var(--font-serif); font-weight: 900; font-size: 6.6em; line-height: 0.72; margin: 0 0.1em 0 0; color: var(--ink); }
 .what-i-do-header { border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); padding: 10px 0; margin-bottom: 28px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; }
 .service-item { border-top: 1px solid var(--ink); padding: 16px 0; font-family: var(--font-mono); font-size: 13px; line-height: 1.7; }
 .service-item:last-of-type { border-bottom: 1px solid var(--ink); }
@@ -227,20 +236,24 @@ footer a:hover { color: var(--red); }
 </nav>
 
 <!-- HOME -->
-<div id="page-home" class="page active" style="scroll-snap-type: y mandatory; overflow-y: scroll; height: 100vh;">
+<div id="page-home" class="page active" style="scroll-snap-type: y mandatory; overflow-y: auto; height: 100vh; height: 100svh;">
   <section class="masthead">
-    <div class="masthead-meta">
-      <span>Vol. 01 — Issue 42</span>
-      <span>Kolkata / Bhubaneswar, India</span>
-      <span>Published: 2026</span>
+    <div class="masthead-content">
+      <div class="masthead-meta">
+        <span>Vol. 01 — Issue 42</span>
+        <span>Kolkata / Bhubaneswar, India</span>
+        <span>Published: 2026</span>
+      </div>
+      <h1 class="masthead-name"><span class="name-desktop">Prayag Ghosh</span><span class="name-mobile">Prayag<br>Ghosh</span></h1>
+      <div class="masthead-sub">
+        <span>Designer &amp; Storyteller</span>
+        <span>Archive — Digital Edition &#9632;</span>
+      </div>
+      <p class="masthead-tagline">"Crafting narratives through type, layout, and visual language."</p>
     </div>
-    <h1 class="masthead-name">Prayag<br>Ghosh</h1>
-    <div class="masthead-sub">
-      <span>Designer &amp; Storyteller</span>
-      <span>Archive — Digital Edition &#9632;</span>
+    <div class="scroll-hint-wrap">
+      <div class="scroll-hint">Scroll</div>
     </div>
-    <p class="masthead-tagline">"Crafting narratives through type, layout, and visual language."</p>
-    <div class="scroll-hint">Scroll</div>
   </section>
 
   <section class="works-section" style="scroll-snap-align: start;">
@@ -581,6 +594,9 @@ function showPage(name, pushState = true) {
   return false;
 }
 
+// Dynamically fit name to full masthead width
+// Dynamically fit name to full masthead width - CSS handles this now
+
 // Handle browser back/forward buttons
 window.addEventListener('popstate', function(e) {
   const page = (e.state && e.state.page) ? e.state.page : 'home';
@@ -713,7 +729,7 @@ function driveLinkBlock(section) {
   return `
     <div style="border:1px solid var(--ink);padding:48px 40px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;background:var(--paper-dark);text-align:center;">
       <div style="font-family:var(--font-serif);font-weight:700;font-size:1.4rem;letter-spacing:-0.02em;">${section.label}</div>
-      <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--mid);">File too large to preview inline</div>
+      <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--mid);">File too large to view online</div>
       <a href="${section.driveLink}" target="_blank" style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;text-transform:uppercase;background:var(--ink);color:var(--paper);padding:12px 28px;text-decoration:none;transition:background 0.2s;" onmouseover="this.style.background='var(--red)'" onmouseout="this.style.background='var(--ink)'">
         View on Google Drive ↗
       </a>
