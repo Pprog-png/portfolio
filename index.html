@@ -41,7 +41,9 @@ body { background: var(--paper); color: var(--ink); font-family: var(--font-seri
 .masthead { height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 0 48px; position: relative; scroll-snap-align: start; }
 .masthead-meta { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; border-bottom: 2px solid var(--ink); padding-bottom: 10px; }
 .masthead-name { font-family: var(--font-serif); font-weight: 900; font-size: clamp(4rem, 14vw, 16rem); line-height: 0.84; letter-spacing: -0.04em; text-transform: uppercase; border-bottom: 4px solid var(--ink); padding: 12px 0 16px; }
-.masthead-sub { display: flex; justify-content: space-between; padding-top: 12px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; border-bottom: 1px solid var(--ink); padding-bottom: 12px; }
+.masthead-sub { display: flex; justify-content: space-between; padding-top: 12px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; border-bottom: 1px solid var(--ink); padding-bottom: 12px; gap: 12px; }
+.masthead-sub span { white-space: nowrap; }
+.masthead-sub span:last-child { text-align: right; }
 .masthead-tagline { text-align: center; margin-top: 28px; font-family: var(--font-serif); font-style: italic; font-size: clamp(0.95rem, 1.8vw, 1.3rem); color: var(--mid); }
 .scroll-hint { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mid); display: flex; flex-direction: column; align-items: center; gap: 4px; animation: bounce 2s infinite; overflow: hidden; max-height: 60px; }
 .scroll-hint::after { content: ''; width: 1px; height: 24px; background: var(--ink); display: block; flex-shrink: 0; }
@@ -195,6 +197,7 @@ footer a:hover { color: var(--red); }
 
 /* RESPONSIVE */
 @media (max-width: 900px) {
+  .masthead-sub { font-size: 8px; letter-spacing: 0.1em; }
   .masthead, .works-section { padding: 0 20px; }
   .works-section { padding: 40px 20px 60px; }
   #page-about, #page-works { padding: 100px 20px 60px; }
