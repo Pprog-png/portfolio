@@ -134,9 +134,50 @@ body { background: var(--paper); color: var(--ink); font-family: var(--font-seri
 
 /* PDF */
 .pdfs-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
-.spread-pdf-wrap { border: 1px solid var(--ink); overflow: hidden; display: flex; flex-direction: column; }
+.spread-pdf-wrap { border: 1px solid var(--ink); overflow: hidden; display: flex; flex-direction: column; position: relative; transition: filter 0.5s ease, opacity 0.5s ease; }
+.spread-pdf-wrap.blurred { filter: blur(4px); opacity: 0.45; pointer-events: none; }
 .spread-pdf-wrap iframe { width: 100%; height: 780px; display: block; border: none; }
 .pdf-caption { font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); padding: 5px 6px; border-top: 1px solid var(--ink); background: var(--paper); }
+
+/* Focus overlay button on blurred PDFs */
+.pdf-focus-overlay {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 16px;
+  background: rgba(245,242,235,0.55); backdrop-filter: blur(2px);
+  z-index: 5; cursor: pointer; transition: opacity 0.3s;
+}
+.pdf-focus-overlay .focus-title {
+  font-family: var(--font-serif); font-weight: 700;
+  font-size: clamp(1rem, 2vw, 1.6rem); text-align: center;
+  padding: 0 20px; letter-spacing: -0.01em;
+}
+.pdf-focus-overlay .focus-btn {
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em;
+  text-transform: uppercase; background: var(--ink); color: var(--paper);
+  padding: 10px 24px; border: none; cursor: pointer; transition: background 0.2s;
+}
+.pdf-focus-overlay .focus-btn:hover { background: var(--red); }
+
+/* driveLink cards same blur treatment */
+.drive-card { border: 1px solid var(--ink); padding: 48px 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; background: var(--paper-dark); text-align: center; position: relative; transition: filter 0.5s ease, opacity 0.5s ease; }
+.drive-card.blurred { filter: blur(4px); opacity: 0.45; pointer-events: none; }
+.drive-card-overlay {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 16px;
+  background: rgba(245,242,235,0.55); backdrop-filter: blur(2px);
+  z-index: 5; cursor: pointer;
+}
+.drive-card-overlay .focus-title {
+  font-family: var(--font-serif); font-weight: 700;
+  font-size: clamp(1rem, 2vw, 1.6rem); text-align: center; padding: 0 20px;
+}
+.drive-card-overlay .focus-btn {
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em;
+  text-transform: uppercase; background: var(--ink); color: var(--paper);
+  padding: 10px 24px; border: none; cursor: pointer; transition: background 0.2s;
+}
+.drive-card-overlay .focus-btn:hover { background: var(--red); }
+
 @media (max-width: 900px) { .pdfs-row { grid-template-columns: 1fr; } .spread-pdf-wrap iframe { height: 420px; } }
 
 /* LIGHTBOX */
@@ -572,21 +613,23 @@ function openProject(key) {
   const imgSections = project.sections.filter(s => !s.pdf && !s.driveLink);
 
   if (pdfSections.length > 0) {
+    const groupId = 'pdf-' + key;
     for (let i = 0; i < pdfSections.length; i += 2) {
-      html += `<div class="pdfs-row">`;
-      html += pdfBlock(pdfSections[i]);
-      if (pdfSections[i + 1]) html += pdfBlock(pdfSections[i + 1]);
+      html += `<div class="pdfs-row" data-mag-group="${groupId}">`;
+      html += pdfBlock(pdfSections[i], i, groupId);
+      if (pdfSections[i + 1]) html += pdfBlock(pdfSections[i + 1], i + 1, groupId);
       html += `</div>`;
     }
   }
 
-  // Drive-link-only sections (too large to preview)
   const linkSections = project.sections.filter(s => s.driveLink);
-  for (let i = 0; i < linkSections.length; i += 2) {
-    html += `<div class="pdfs-row">`;
-    html += driveLinkBlock(linkSections[i]);
-    if (linkSections[i + 1]) html += driveLinkBlock(linkSections[i + 1]);
-    html += `</div>`;
+  if (linkSections.length > 0) {
+    for (let i = 0; i < linkSections.length; i += 2) {
+      html += `<div class="pdfs-row">`;
+      html += driveLinkBlock(linkSections[i]);
+      if (linkSections[i + 1]) html += driveLinkBlock(linkSections[i + 1]);
+      html += `</div>`;
+    }
   }
 
   // Group single-image sections into pairs, multi-image sections render normally
@@ -674,11 +717,16 @@ function driveLinkBlock(section) {
   `;
 }
 
-function pdfBlock(section) {
+function pdfBlock(section, index, groupId) {
+  const isFirst = index === 0;
   return `
-    <div class="spread-pdf-wrap">
+    <div class="spread-pdf-wrap${isFirst ? '' : ' blurred'}" data-mag-id="${groupId}-${index}">
+      <div class="pdf-focus-overlay" style="${isFirst ? 'display:none;' : ''}" onclick="focusMagazine('${groupId}', ${index})">
+        <div class="focus-title">${section.label}</div>
+        <button class="focus-btn">Read This Issue</button>
+      </div>
       <iframe src="${section.pdf}" allowfullscreen></iframe>
-      <div class="pdf-caption">${section.label || ''} — PDF Publication</div>
+      <div class="pdf-caption">${section.label} — PDF Publication</div>
     </div>
   `;
 }
@@ -692,6 +740,24 @@ function imgCard(img) {
       <div class="img-caption">${img.caption}</div>
     </div>
   `;
+}
+
+function focusMagazine(groupId, activeIndex) {
+  // Find all cards in this group across all pdfs-rows
+  const allCards = document.querySelectorAll(`[data-mag-id^="${groupId}-"]`);
+  allCards.forEach(card => {
+    const cardIndex = parseInt(card.dataset.magId.split('-').pop());
+    const overlay = card.querySelector('.pdf-focus-overlay, .drive-card-overlay');
+    if (cardIndex === activeIndex) {
+      card.classList.remove('blurred');
+      card.style.pointerEvents = '';
+      if (overlay) overlay.style.display = 'none';
+    } else {
+      card.classList.add('blurred');
+      card.style.pointerEvents = 'none';
+      if (overlay) overlay.style.display = 'flex';
+    }
+  });
 }
 
 function currentPage() {
