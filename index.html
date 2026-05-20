@@ -135,16 +135,17 @@ body { background: var(--paper); color: var(--ink); font-family: var(--font-seri
 /* PDF */
 .pdfs-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
 .spread-pdf-wrap { border: 1px solid var(--ink); overflow: hidden; display: flex; flex-direction: column; position: relative; transition: filter 0.5s ease, opacity 0.5s ease; }
-.spread-pdf-wrap.blurred { filter: blur(4px); opacity: 0.45; pointer-events: none; }
+.spread-pdf-wrap.blurred { filter: blur(4px); opacity: 0.45; }
+.spread-pdf-wrap.blurred iframe { pointer-events: none; }
 .spread-pdf-wrap iframe { width: 100%; height: 780px; display: block; border: none; }
 .pdf-caption { font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); padding: 5px 6px; border-top: 1px solid var(--ink); background: var(--paper); }
 
-/* Focus overlay button on blurred PDFs */
+/* Focus overlay — sits OUTSIDE the blurred wrap, positioned absolutely over it */
 .pdf-focus-overlay {
   position: absolute; inset: 0; display: flex; flex-direction: column;
   align-items: center; justify-content: center; gap: 16px;
-  background: rgba(245,242,235,0.55); backdrop-filter: blur(2px);
-  z-index: 5; cursor: pointer; transition: opacity 0.3s;
+  background: rgba(245,242,235,0.7); backdrop-filter: blur(0px);
+  z-index: 10; cursor: pointer; transition: opacity 0.3s;
 }
 .pdf-focus-overlay .focus-title {
   font-family: var(--font-serif); font-weight: 700;
@@ -718,15 +719,16 @@ function driveLinkBlock(section) {
 }
 
 function pdfBlock(section, index, groupId) {
-  const isFirst = index === 0;
   return `
-    <div class="spread-pdf-wrap${isFirst ? '' : ' blurred'}" data-mag-id="${groupId}-${index}">
-      <div class="pdf-focus-overlay" style="${isFirst ? 'display:none;' : ''}" onclick="focusMagazine('${groupId}', ${index})">
+    <div style="position:relative;" data-mag-container="${groupId}-${index}">
+      <div class="spread-pdf-wrap blurred" data-mag-id="${groupId}-${index}">
+        <iframe src="${section.pdf}" allowfullscreen></iframe>
+        <div class="pdf-caption">${section.label} — PDF Publication</div>
+      </div>
+      <div class="pdf-focus-overlay" data-mag-overlay="${groupId}-${index}" onclick="focusMagazine('${groupId}', ${index})">
         <div class="focus-title">${section.label}</div>
         <button class="focus-btn">Read This Issue</button>
       </div>
-      <iframe src="${section.pdf}" allowfullscreen></iframe>
-      <div class="pdf-caption">${section.label} — PDF Publication</div>
     </div>
   `;
 }
@@ -743,20 +745,21 @@ function imgCard(img) {
 }
 
 function focusMagazine(groupId, activeIndex) {
-  // Find all cards in this group across all pdfs-rows
-  const allCards = document.querySelectorAll(`[data-mag-id^="${groupId}-"]`);
-  allCards.forEach(card => {
-    const cardIndex = parseInt(card.dataset.magId.split('-').pop());
-    const overlay = card.querySelector('.pdf-focus-overlay, .drive-card-overlay');
-    if (cardIndex === activeIndex) {
-      card.classList.remove('blurred');
-      card.style.pointerEvents = '';
-      if (overlay) overlay.style.display = 'none';
+  const allWraps = document.querySelectorAll(`[data-mag-id^="${groupId}-"]`);
+  const allOverlays = document.querySelectorAll(`[data-mag-overlay^="${groupId}-"]`);
+
+  allWraps.forEach(wrap => {
+    const idx = parseInt(wrap.dataset.magId.split('-').pop());
+    if (idx === activeIndex) {
+      wrap.classList.remove('blurred');
     } else {
-      card.classList.add('blurred');
-      card.style.pointerEvents = 'none';
-      if (overlay) overlay.style.display = 'flex';
+      wrap.classList.add('blurred');
     }
+  });
+
+  allOverlays.forEach(overlay => {
+    const idx = parseInt(overlay.dataset.magOverlay.split('-').pop());
+    overlay.style.display = idx === activeIndex ? 'none' : 'flex';
   });
 }
 
