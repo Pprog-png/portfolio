@@ -507,12 +507,12 @@ const PROJECTS = {
       {
         label: "KIIT MUN — Samikhya",
         pdf: "https://drive.google.com/file/d/1pdDqX_XQOi3i9kJ6gAny3ualNLDBoi0I/preview",
-        images: []
+        cover: "1BmFkdlVAvZLRLT1oSKm_dm6MYkYWmrgU"
       },
       {
         label: "KSAC Kaptures — March 2026",
         pdf: "https://drive.google.com/file/d/1sDZsKdBNI9iL8CFZCDmbU7oP27mnOUkG/preview",
-        images: []
+        cover: "1L3qHnk6w0VFxn0TehZLD7HFVWAWyaM6V"
       },
       {
         label: "Mindscapes — School Magazine 2023–24",
@@ -719,10 +719,16 @@ function driveLinkBlock(section) {
 }
 
 function pdfBlock(section, index, groupId) {
+  const coverUrl = section.cover ? driveImg(section.cover) : '';
   return `
     <div style="position:relative;" data-mag-container="${groupId}-${index}">
-      <div class="spread-pdf-wrap blurred" data-mag-id="${groupId}-${index}">
-        <iframe src="${section.pdf}" allowfullscreen></iframe>
+      <div class="spread-pdf-wrap blurred" data-mag-id="${groupId}-${index}" data-pdf-src="${section.pdf}">
+        ${coverUrl
+          ? `<div class="pdf-cover" style="width:100%;height:780px;background:var(--paper-dark);overflow:hidden;position:relative;">
+               <img src="${coverUrl}" style="width:100%;height:100%;object-fit:cover;object-position:top;display:block;" loading="lazy">
+             </div>`
+          : `<div style="width:100%;height:780px;background:var(--paper-dark);"></div>`
+        }
         <div class="pdf-caption">${section.label} — PDF Publication</div>
       </div>
       <div class="pdf-focus-overlay" data-mag-overlay="${groupId}-${index}" onclick="focusMagazine('${groupId}', ${index})">
@@ -750,7 +756,19 @@ function focusMagazine(groupId, activeIndex) {
 
   allWraps.forEach(wrap => {
     const idx = parseInt(wrap.dataset.magId.split('-').pop());
+    const pdfSrc = wrap.dataset.pdfSrc;
+
     if (idx === activeIndex) {
+      // Swap cover image for live iframe
+      const cover = wrap.querySelector('.pdf-cover');
+      const existingIframe = wrap.querySelector('iframe');
+      if (cover && !existingIframe) {
+        const iframe = document.createElement('iframe');
+        iframe.src = pdfSrc;
+        iframe.allowFullscreen = true;
+        iframe.style.cssText = 'width:100%;height:780px;display:block;border:none;';
+        cover.replaceWith(iframe);
+      }
       wrap.classList.remove('blurred');
     } else {
       wrap.classList.add('blurred');
