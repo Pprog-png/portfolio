@@ -40,11 +40,11 @@ body { background: var(--paper); color: var(--ink); font-family: var(--font-seri
 .masthead { height: 100vh; display: flex; flex-direction: column; padding: 80px 20px 24px; position: relative; scroll-snap-align: start; box-sizing: border-box; }
 @media (min-width: 901px) { .masthead { padding: 80px 48px 24px; } }
 .masthead-content { flex: 1; display: flex; flex-direction: column; justify-content: center; }
-.masthead-name { font-family: var(--font-serif); font-weight: 900; font-size: clamp(4rem, 14vw, 16rem); line-height: 0.84; letter-spacing: -0.04em; text-transform: uppercase; border-bottom: 4px solid var(--ink); padding: 12px 0 16px; }
+.masthead-name { font-family: var(--font-serif); font-weight: 900; line-height: 1; letter-spacing: -0.04em; text-transform: uppercase; border-top: 4px solid var(--ink); border-bottom: 4px solid var(--ink); padding: 0.18em 0; margin: 0.18em 0; width: 100%; }
 .name-desktop { display: none; }
-.name-mobile { display: block; }
+.name-mobile { display: block; font-size: clamp(4rem, 22vw, 16rem); }
 @media (min-width: 901px) {
-  .name-desktop { display: block; white-space: nowrap; font-size: clamp(4rem, 11.5vw, 16rem); letter-spacing: -0.04em; }
+  .name-desktop { display: block; font-size: clamp(4rem, 12.8vw, 20rem); white-space: nowrap; width: 100%; }
   .name-mobile { display: none; }
 }
 .scroll-hint-wrap { margin-top: auto; padding-top: 24px; display: flex; justify-content: center; }
@@ -593,6 +593,30 @@ function showPage(name, pushState = true) {
   }
   return false;
 }
+
+// Dynamically fit name to full masthead width
+function fitName() {
+  const desktop = document.querySelector('.name-desktop');
+  if (!desktop || window.innerWidth <= 900) return;
+  const container = desktop.closest('.masthead-name');
+  if (!container) return;
+  desktop.style.fontSize = '10px';
+  const maxWidth = container.clientWidth - 2;
+  let lo = 10, hi = 400, mid;
+  for (let i = 0; i < 30; i++) {
+    mid = (lo + hi) / 2;
+    desktop.style.fontSize = mid + 'px';
+    if (desktop.scrollWidth <= maxWidth) lo = mid;
+    else hi = mid;
+  }
+  desktop.style.fontSize = lo + 'px';
+}
+
+// Wait for fonts then fit
+document.fonts.ready.then(() => {
+  fitName();
+});
+window.addEventListener('resize', fitName);
 
 // Handle browser back/forward buttons
 window.addEventListener('popstate', function(e) {
