@@ -37,17 +37,18 @@ body { background: var(--paper); color: var(--ink); font-family: var(--font-seri
 .page { display: none !important; min-height: 100vh; }
 .page.active { display: block !important; }
 
-/* MASTHEAD */
-.masthead { height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 0 48px; position: relative; scroll-snap-align: start; }
-.masthead-meta { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; border-bottom: 2px solid var(--ink); padding-bottom: 10px; }
+.masthead { height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 0 20px; position: relative; scroll-snap-align: start; box-sizing: border-box; overflow: hidden; }
+@media (min-width: 901px) { .masthead { padding: 0 48px; } }
+.scroll-hint { display: flex; flex-direction: column; align-items: center; gap: 4px; font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mid); position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); animation: bounce 2s infinite; }
+.scroll-hint::after { content: ''; width: 1px; height: 20px; background: var(--ink); display: block; flex-shrink: 0; }
+@keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(5px)} }
+.masthead-meta { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: clamp(7px, 1.8vw, 10px); letter-spacing: 0.1em; text-transform: uppercase; border-bottom: 2px solid var(--ink); padding-bottom: 10px; gap: 8px; }
+.masthead-meta span { white-space: nowrap; }
 .masthead-name { font-family: var(--font-serif); font-weight: 900; font-size: clamp(4rem, 14vw, 16rem); line-height: 0.84; letter-spacing: -0.04em; text-transform: uppercase; border-bottom: 4px solid var(--ink); padding: 12px 0 16px; }
 .masthead-sub { display: flex; justify-content: space-between; padding-top: 12px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; border-bottom: 1px solid var(--ink); padding-bottom: 12px; gap: 12px; }
 .masthead-sub span { white-space: nowrap; }
 .masthead-sub span:last-child { text-align: right; }
 .masthead-tagline { text-align: center; margin-top: 28px; font-family: var(--font-serif); font-style: italic; font-size: clamp(0.95rem, 1.8vw, 1.3rem); color: var(--mid); }
-.scroll-hint { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mid); display: flex; flex-direction: column; align-items: center; gap: 4px; animation: bounce 2s infinite; overflow: hidden; max-height: 60px; }
-.scroll-hint::after { content: ''; width: 1px; height: 24px; background: var(--ink); display: block; flex-shrink: 0; }
-@keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
 
 /* HOME WORKS */
 .works-section { padding: 60px 48px 80px; border-top: 4px double var(--ink); }
