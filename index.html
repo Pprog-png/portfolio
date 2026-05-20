@@ -60,13 +60,12 @@ body { background: var(--paper); color: var(--ink); font-family: var(--font-seri
 .masthead-sub span { white-space: nowrap; }
 .masthead-sub span:last-child { text-align: right; }
 
-/* TAGLINE QUOTE ADJUSTMENTS */
 .masthead-tagline { 
   text-align: center; 
-  margin-top: 48px; /* Bumped down from 32px for a breathing offset */
+  margin-top: 48px; 
   font-family: var(--font-serif); 
   font-style: italic; 
-  font-size: clamp(1.2rem, 2.5vw, 1.85rem); /* Made slightly larger from clamp(1rem, 2vw, 1.5rem) */
+  font-size: clamp(1.2rem, 2.5vw, 1.85rem); 
   color: var(--mid); 
   letter-spacing: 0.01em; 
 }
@@ -124,8 +123,26 @@ body { background: var(--paper); color: var(--ink); font-family: var(--font-seri
 
 /* WORKS INDEX */
 #page-works { padding: 120px 48px 80px; max-width: 1440px; margin: 0 auto; }
-.works-page-header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 4px solid var(--ink); padding-bottom: 12px; }
-.works-page-title { font-family: var(--font-serif); font-weight: 900; font-size: clamp(3rem, 8vw, 8rem); letter-spacing: -0.04em; text-transform: uppercase; line-height: 0.85; }
+
+.works-page-header { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: flex-end; 
+  border-bottom: 4px solid var(--ink); 
+  padding-bottom: 16px; /* Added more padding buffer from the divider line */
+  margin-bottom: 48px; /* Standardized to match the spacing configuration from profile layout */
+}
+
+.works-page-title { 
+  font-family: var(--font-serif); 
+  font-weight: 900; 
+  font-size: clamp(1.8rem, 5vw, 6rem); /* Matched sizing hierarchy of Profile h1 */
+  letter-spacing: -0.03em; /* Matched letter spacing offset */
+  text-transform: uppercase; 
+  line-height: 1; 
+  white-space: nowrap;
+}
+
 .works-archive-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mid); padding-bottom: 8px; }
 .works-index-item { display: grid; grid-template-columns: 80px 1fr auto; align-items: center; gap: 32px; border-bottom: 1px solid var(--ink); padding: 28px 0; cursor: pointer; transition: background 0.15s; }
 .works-index-item:hover { background: var(--paper-dark); }
