@@ -123,26 +123,23 @@ body { background: var(--paper); color: var(--ink); font-family: var(--font-seri
 
 /* WORKS INDEX */
 #page-works { padding: 120px 48px 80px; max-width: 1440px; margin: 0 auto; }
-
 .works-page-header { 
   display: flex; 
   justify-content: space-between; 
   align-items: flex-end; 
   border-bottom: 4px solid var(--ink); 
-  padding-bottom: 16px; /* Added more padding buffer from the divider line */
-  margin-bottom: 48px; /* Standardized to match the spacing configuration from profile layout */
+  padding-bottom: 16px; 
+  margin-bottom: 48px; 
 }
-
 .works-page-title { 
   font-family: var(--font-serif); 
   font-weight: 900; 
-  font-size: clamp(1.8rem, 5vw, 6rem); /* Matched sizing hierarchy of Profile h1 */
-  letter-spacing: -0.03em; /* Matched letter spacing offset */
+  font-size: clamp(1.8rem, 5vw, 6rem); 
+  letter-spacing: -0.03em; 
   text-transform: uppercase; 
   line-height: 1; 
   white-space: nowrap;
 }
-
 .works-archive-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mid); padding-bottom: 8px; }
 .works-index-item { display: grid; grid-template-columns: 80px 1fr auto; align-items: center; gap: 32px; border-bottom: 1px solid var(--ink); padding: 28px 0; cursor: pointer; transition: background 0.15s; }
 .works-index-item:hover { background: var(--paper-dark); }
@@ -164,7 +161,7 @@ body { background: var(--paper); color: var(--ink); font-family: var(--font-seri
 .spread-headline { font-family: var(--font-serif); font-weight: 900; font-size: clamp(3rem, 9vw, 10rem); letter-spacing: -0.04em; text-transform: uppercase; line-height: 0.85; }
 .spread-section-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; border-top: 2px solid var(--ink); border-bottom: 1px solid var(--ink); padding: 6px 0; margin: 32px 0 16px; color: var(--red); }
 
-/* IMAGE GRIDS — contained, newspaper-style */
+/* IMAGE GRIDS */
 .spread-grid { display: grid; gap: 10px; margin-bottom: 10px; }
 .spread-grid-4 { grid-template-columns: repeat(4, 1fr); }
 .spread-grid-3 { grid-template-columns: repeat(3, 1fr); }
@@ -172,13 +169,12 @@ body { background: var(--paper); color: var(--ink); font-family: var(--font-seri
 .spread-grid-1-solo { grid-template-columns: 1fr 1fr; gap: 10px; }
 
 .spread-img-wrap { border: 1px solid var(--ink); background: var(--paper-dark); overflow: hidden; }
-.spread-img-wrap .img-inner { position: relative; width: 100%; padding-bottom: 75%; /* 4:3 default */ }
+.spread-img-wrap .img-inner { position: relative; width: 100%; padding-bottom: 75%; }
 .spread-img-wrap .img-inner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; transition: transform 0.4s; cursor: zoom-in; }
 .spread-img-wrap:hover .img-inner img { transform: scale(1.02); }
 
 .img-caption { font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); padding: 5px 6px; border-top: 1px solid var(--ink); background: var(--paper); }
 
-/* for single-image: sidebar caption column */
 .solo-caption-col { display: flex; flex-direction: column; justify-content: flex-start; padding-left: 12px; }
 .solo-caption-col .big-num { font-family: var(--font-serif); font-weight: 900; font-size: 5rem; color: rgba(0,0,0,0.07); line-height: 1; }
 .solo-caption-col .solo-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; margin-top: 12px; }
@@ -191,7 +187,6 @@ body { background: var(--paper); color: var(--ink); font-family: var(--font-seri
 .spread-pdf-wrap iframe { width: 100%; height: 780px; display: block; border: none; }
 .pdf-caption { font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); padding: 5px 6px; border-top: 1px solid var(--ink); background: var(--paper); }
 
-/* Focus overlay — sits OUTSIDE the blurred wrap, positioned absolutely over it */
 .pdf-focus-overlay {
   position: absolute; inset: 0; display: flex; flex-direction: column;
   align-items: center; justify-content: center; gap: 16px;
@@ -210,7 +205,7 @@ body { background: var(--paper); color: var(--ink); font-family: var(--font-seri
 }
 .pdf-focus-overlay .focus-btn:hover { background: var(--red); }
 
-/* driveLink cards same blur treatment */
+/* driveLink cards */
 .drive-card { border: 1px solid var(--ink); padding: 48px 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; background: var(--paper-dark); text-align: center; position: relative; transition: filter 0.5s ease, opacity 0.5s ease; }
 .drive-card.blurred { filter: blur(4px); opacity: 0.45; pointer-events: none; }
 .drive-card-overlay {
@@ -634,7 +629,14 @@ function showPage(name, pushState = true) {
   return false;
 }
 
+/* POPSTATE ACTION TRACKER WITH MAILTO INTERCEPTION FIX */
 window.addEventListener('popstate', function(e) {
+  const modal = document.getElementById('modal-overlay');
+  if (modal.classList.contains('open')) {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+    return;
+  }
   const page = (e.state && e.state.page) ? e.state.page : 'home';
   showPage(page, false);
 });
@@ -837,17 +839,6 @@ function closeModal() {
   document.body.style.overflow = '';
   history.back();
 }
-
-window.addEventListener('popstate', function(e) {
-  const modal = document.getElementById('modal-overlay');
-  if (modal.classList.contains('open')) {
-    modal.classList.remove('open');
-    document.body.style.overflow = '';
-    return;
-  }
-  const page = (e.state && e.state.page) ? e.state.page : 'home';
-  showPage(page, false);
-});
 
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') { closeLightbox(); closeModal(); }
