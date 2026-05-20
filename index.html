@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PRAYAG GHOSH</title>
+<title>PRAYAG GHOSH — DESIGNER</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -43,8 +43,8 @@ body { background: var(--paper); color: var(--ink); font-family: var(--font-seri
 .masthead-name { font-family: var(--font-serif); font-weight: 900; font-size: clamp(4rem, 14vw, 16rem); line-height: 0.84; letter-spacing: -0.04em; text-transform: uppercase; border-bottom: 4px solid var(--ink); padding: 12px 0 16px; }
 .masthead-sub { display: flex; justify-content: space-between; padding-top: 12px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; border-bottom: 1px solid var(--ink); padding-bottom: 12px; }
 .masthead-tagline { text-align: center; margin-top: 28px; font-family: var(--font-serif); font-style: italic; font-size: clamp(0.95rem, 1.8vw, 1.3rem); color: var(--mid); }
-.scroll-hint { position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mid); display: flex; flex-direction: column; align-items: center; gap: 6px; animation: bounce 2s infinite; }
-.scroll-hint::after { content: ''; width: 1px; height: 36px; background: var(--ink); display: block; }
+.scroll-hint { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mid); display: flex; flex-direction: column; align-items: center; gap: 4px; animation: bounce 2s infinite; overflow: hidden; max-height: 60px; }
+.scroll-hint::after { content: ''; width: 1px; height: 24px; background: var(--ink); display: block; flex-shrink: 0; }
 @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
 
 /* HOME WORKS */
@@ -521,7 +521,7 @@ const PROJECTS = {
 };
 
 /* PAGE SWITCHING */
-function showPage(name) {
+function showPage(name, pushState = true) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('#nav a').forEach(a => a.classList.remove('active'));
   const target = document.getElementById('page-' + name);
@@ -530,13 +530,34 @@ function showPage(name) {
   if (navLink) navLink.classList.add('active');
   document.documentElement.scrollTop = 0;
   document.body.scrollTop = 0;
+  if (pushState) {
+    history.pushState({ page: name }, '', '#' + name);
+  }
   return false;
 }
+
+// Handle browser back/forward buttons
+window.addEventListener('popstate', function(e) {
+  const page = (e.state && e.state.page) ? e.state.page : 'home';
+  showPage(page, false);
+});
+
+// Handle direct URL with hash on load
+window.addEventListener('DOMContentLoaded', function() {
+  const hash = window.location.hash.replace('#', '');
+  const validPages = ['home', 'about', 'works'];
+  if (hash && validPages.includes(hash)) {
+    showPage(hash, false);
+  } else {
+    history.replaceState({ page: 'home' }, '', '#home');
+  }
+});
 
 /* OPEN PROJECT MODAL */
 function openProject(key) {
   const project = PROJECTS[key];
   if (!project) return;
+  history.pushState({ page: currentPage(), modal: key }, '', '#' + currentPage() + '-' + key);
   const container = document.getElementById('modal-content');
 
   let html = `
@@ -673,10 +694,29 @@ function imgCard(img) {
   `;
 }
 
+function currentPage() {
+  const active = document.querySelector('.page.active');
+  return active ? active.id.replace('page-', '') : 'home';
+}
+
 function closeModal() {
   document.getElementById('modal-overlay').classList.remove('open');
   document.body.style.overflow = '';
+  history.back();
 }
+
+// Handle browser back/forward — covers both pages and modal
+window.addEventListener('popstate', function(e) {
+  // Close modal if open
+  const modal = document.getElementById('modal-overlay');
+  if (modal.classList.contains('open')) {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+    return;
+  }
+  const page = (e.state && e.state.page) ? e.state.page : 'home';
+  showPage(page, false);
+});
 
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') { closeLightbox(); closeModal(); }
