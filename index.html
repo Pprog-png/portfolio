@@ -59,7 +59,17 @@ body { background: var(--paper); color: var(--ink); font-family: var(--font-seri
 .masthead-sub { display: flex; justify-content: space-between; padding-top: 12px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; border-bottom: 1px solid var(--ink); padding-bottom: 12px; gap: 12px; }
 .masthead-sub span { white-space: nowrap; }
 .masthead-sub span:last-child { text-align: right; }
-.masthead-tagline { text-align: center; margin-top: 32px; font-family: var(--font-serif); font-style: italic; font-size: clamp(1rem, 2vw, 1.5rem); color: var(--mid); letter-spacing: 0.01em; }
+
+/* TAGLINE QUOTE ADJUSTMENTS */
+.masthead-tagline { 
+  text-align: center; 
+  margin-top: 48px; /* Bumped down from 32px for a breathing offset */
+  font-family: var(--font-serif); 
+  font-style: italic; 
+  font-size: clamp(1.2rem, 2.5vw, 1.85rem); /* Made slightly larger from clamp(1rem, 2vw, 1.5rem) */
+  color: var(--mid); 
+  letter-spacing: 0.01em; 
+}
 
 /* HOME WORKS */
 .works-section { padding: 60px 48px 80px; border-top: 4px double var(--ink); scroll-snap-align: start; }
@@ -598,7 +608,6 @@ function showPage(name, pushState = true) {
   const navLink = document.getElementById('nav-' + name);
   if (navLink) navLink.classList.add('active');
   
-  // Resets viewport back up cleanly for the whole window
   document.documentElement.scrollTop = 0;
   document.body.scrollTop = 0;
   
@@ -685,7 +694,7 @@ function openProject(key) {
         html += imgCard(imgs[0]);
         html += `</div>`;
         html += `<div>`;
-        html += `<div class="spread-section-label" style="margin-top:0">${pairSection.label}</div>`;
+        html += `<div class="spread-section-label" style="margin-top:0">${pairSection.images[0]}</div>`;
         html += imgCard(pairSection.images[0]);
         html += `</div>`;
         html += `</div>`;
