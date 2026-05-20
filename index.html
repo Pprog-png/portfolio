@@ -93,6 +93,16 @@ body { background: var(--paper); color: var(--ink); font-family: var(--font-seri
 .service-item { border-top: 1px solid var(--ink); padding: 16px 0; font-family: var(--font-mono); font-size: 13px; line-height: 1.7; }
 .service-item:last-of-type { border-bottom: 1px solid var(--ink); }
 .service-title { font-weight: 600; display: block; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.08em; }
+.tools-block { margin-top: 24px; border-top: 2px solid var(--ink); padding-top: 16px; }
+.tools-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--mid); margin-bottom: 12px; }
+.tools-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.tool-pill { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; border: 1.5px solid var(--ink); padding: 6px 14px; background: transparent; transition: background 0.2s, color 0.2s; cursor: default; }
+.tool-pill:hover { background: var(--ink); color: var(--paper); }
+.tool-pill.learning { border-style: dashed; color: var(--mid); font-style: italic; }
+.tool-pill.learning:hover { background: var(--mid); color: var(--paper); }
+.tools-mobile { display: none; }
+.tools-desktop { display: block; }
+@media (max-width: 900px) { .tools-mobile { display: block; } .tools-desktop { display: none; } }
 .contact-box { margin-top: 40px; border: 2px solid var(--ink); background: var(--ink); color: var(--paper); padding: 28px 32px; }
 .contact-box-title { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 10px; margin-bottom: 16px; }
 .contact-links { font-family: var(--font-mono); font-size: 13px; display: flex; flex-wrap: wrap; gap: 8px 24px; }
@@ -324,6 +334,15 @@ footer a:hover { color: var(--red); }
         >
       </div>
       <div class="about-photo-caption">Fig. 1 — The Designer</div>
+      <!-- Tools block under photo on desktop -->
+      <div class="tools-block tools-desktop">
+        <div class="tools-label">Built With</div>
+        <div class="tools-row">
+          <div class="tool-pill">Adobe Photoshop</div>
+          <div class="tool-pill">Canva</div>
+          <div class="tool-pill learning">Adobe Illustrator ✦ Learning</div>
+        </div>
+      </div>
     </div>
     <div class="col-divider"></div>
     <div class="about-text-col">
@@ -341,9 +360,27 @@ footer a:hover { color: var(--red); }
       </div>
       <div class="service-item">
         <span class="service-title">03. Visual Storytelling</span>
-        Combining digital photography, creative direction, and cinematic poster design to build immersive worlds for events and media.
+        Combining creative direction and cinematic poster design to build immersive worlds for events and media.
+      </div>
+      <!-- Tools block after What I Do on mobile only -->
+      <div class="tools-block tools-mobile">
+        <div class="tools-label">Built With</div>
+        <div class="tools-row">
+          <div class="tool-pill">Adobe Photoshop</div>
+          <div class="tool-pill">Canva</div>
+          <div class="tool-pill learning">Adobe Illustrator ✦ Learning</div>
+        </div>
       </div>
       <div class="contact-box">
+        <div class="contact-box-title">Let's Build Something Together</div>
+        <div class="contact-links">
+          <a href="mailto:ghoshprayag@gmail.com">ghoshprayag@gmail.com</a>
+          <span>|</span>
+          <a href="https://linkedin.com/in/prayag-ghosh-6b042937b/" target="_blank">linkedin.com/in/prayag-ghosh-6b042937b/</a>
+        </div>
+      </div>
+    </div>
+  </div>
         <div class="contact-box-title">Let's Build Something Together</div>
         <div class="contact-links">
           <a href="mailto:ghoshprayag@gmail.com">ghoshprayag@gmail.com</a>
@@ -532,12 +569,12 @@ const PROJECTS = {
       },
       {
         label: "Mindscapes — School Magazine 2023–24",
-        driveLink: "https://drive.google.com/file/d/1RWDuhJS0U1_9NfbLEwRszinOSK7hRzar/view",
+        driveLink: "https://drive.google.com/file/d/1h0sRbfGYo0HIx9QV4sHsaU07II5Kq4pj/view?usp=sharing",
         images: []
       },
       {
         label: "Mindscapes — Part 2, Creative Magazine",
-        driveLink: "https://drive.google.com/file/d/1xgR0bfR7QxeoiM7xmAvyn0GHS8suurtA/view",
+        driveLink: "https://drive.google.com/file/d/16jF8-FWichY-G6cdudSLIPKuRkf3yzP4/view?usp=sharing",
         images: []
       }
     ]
